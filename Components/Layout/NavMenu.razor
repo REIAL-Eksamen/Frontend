@@ -11,7 +11,26 @@
             <NavLink href="profil">Profil</NavLink>
         </div>
         <div class="user-avatar">
-            <img src="/avatar-placeholder.png" alt="Bruger" />
+            <div class="avatar-circle" onclick="toggleDropdown()">👤</div>
+            <div class="dropdown-menu" id="dropdownMenu">
+                <a href="/profil">Min profil</a>
+                <a href="/minebookinger">Mine bookinger</a>
+                <a href="/logout">Log ud</a>
+            </div>
         </div>
     </nav>
 </header>
+
+<script>
+    function toggleDropdown() {
+        var menu = document.getElementById('dropdownMenu');
+        menu.classList.toggle('show');
+    }
+
+    document.addEventListener('click', function(e) {
+        var avatar = document.querySelector('.user-avatar');
+        if (!avatar.contains(e.target)) {
+            document.getElementById('dropdownMenu').classList.remove('show');
+        }
+    });
+</script>
