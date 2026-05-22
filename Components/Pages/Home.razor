@@ -1,4 +1,4 @@
-﻿@page "/"
+﻿@page "/hjem"
 
 <PageTitle>Hjem - FitLife</PageTitle>
 
@@ -6,8 +6,8 @@
     <div class="welcome-section">
         <div class="welcome-text">
             <p class="welcome-sub">Fredag, 22. maj 2026</p>
-            <h1>Hej, Enni 👋</h1>
-            <p class="membership-badge">⭐ Premium medlem</p>
+            <h1>Hej, Enni</h1>
+            <p class="membership-badge">Premium medlem</p>
         </div>
         <a href="/bookhold" class="btn-book">BOOK ET HOLD</a>
     </div>
@@ -15,18 +15,16 @@
     <div class="dashboard-grid">
         <div class="card training-card">
             <h3>Træningsdage denne uge</h3>
-            <div class="gauge-container">
-                <div class="gauge-number">3</div>
-                <div class="gauge-label">ud af 7 dage</div>
-                <div class="gauge-bar">
-                    <div class="gauge-fill" style="width: 43%"></div>
-                </div>
-                <p class="gauge-avg">Dit gennemsnit: 4 dage</p>
+            <div class="gauge-number">3</div>
+            <div class="gauge-label">ud af 7 dage</div>
+            <div class="gauge-bar">
+                <div class="gauge-fill" style="width: 43%"></div>
             </div>
+            <p class="gauge-avg">Dit gennemsnit: 4 dage</p>
         </div>
 
         <div class="card points-card">
-            <h3>🏆 FitPoints</h3>
+            <h3>FitPoints</h3>
             <div class="points-number">1.240</div>
             <p class="points-sub">point optjent</p>
             <div class="points-bar">
@@ -36,7 +34,7 @@
         </div>
 
         <div class="card busy-card">
-            <h3>📍 Århus C, Scandinavian</h3>
+            <h3>Arhus C, Scandinavian</h3>
             <p class="busy-sub">Mest travle tidspunkter i dag</p>
             <div class="busy-times">
                 <div class="busy-slot">
@@ -63,15 +61,32 @@
         </div>
 
         <div class="card next-booking-card">
-            <h3>📅 Næste booking</h3>
+            <h3>Næste booking</h3>
             <div class="next-booking">
                 <div class="booking-info">
                     <span class="booking-class">Pilates</span>
                     <span class="booking-time">7/5 kl. 10:30</span>
-                    <span class="booking-place">Århus C, Scandinavian</span>
+                    <span class="booking-place">Arhus C, Scandinavian</span>
                 </div>
                 <a href="/minebookinger" class="btn-see-all">Se alle</a>
             </div>
         </div>
     </div>
+
+    <footer class="home-footer">
+        <div class="footer-section">
+            <h4>FitLife Digital</h4>
+            <p>CVR: 12 34 56 78</p>
+            <p>Scandinavian Center, Åboulevarden 1, 8000 Aarhus C</p>
+        </div>
+        <div class="footer-section">
+            <h4>Hjælp</h4>
+            <p>Kundeservice: +45 70 20 30 40</p>
+            <p>support@fitlife.dk</p>
+        </div>
+        <div class="footer-section">
+            <h4>Følg os</h4>
+            <p>Instagram · Facebook · TikTok</p>
+        </div>
+    </footer>
 </div>

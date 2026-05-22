@@ -1,6 +1,9 @@
 .login-container {
-    min-height: 100vh;
-    background-color: #2d2d2d;
+    height: 100vh;
+    overflow: hidden;
+    background-image: url('/images/baggrundsp2.jpg');
+    background-size: cover;
+    background-position: center;
     display: flex;
     align-items: center;
     justify-content: center;

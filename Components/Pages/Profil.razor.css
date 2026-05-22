@@ -1,15 +1,18 @@
 .profil-container {
     max-width: 800px;
-    margin: 3rem auto;
-    padding: 0 2rem;
-    min-height: 100vh;
+    margin: 0 auto;
+    padding: 2rem 2rem;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
 }
 
 .profil-header {
     display: flex;
     align-items: center;
     gap: 2rem;
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
 }
 
 .profil-avatar {
@@ -22,6 +25,7 @@
     align-items: center;
     justify-content: center;
     font-size: 3rem;
+    flex-shrink: 0;
 }
 
 .profil-navn h1 {
@@ -40,8 +44,8 @@
     background: #e8e8e8;
     border-radius: 12px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-    padding: 2rem;
-    margin-bottom: 1.5rem;
+    padding: 1.5rem 2rem;
+    margin-bottom: 1rem;
     color: #1a1a1a;
 }
 
@@ -51,7 +55,7 @@
     color: #555;
     text-transform: uppercase;
     letter-spacing: 1px;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
     padding-bottom: 0.5rem;
     border-bottom: 2px solid #ccc;
 }
@@ -60,7 +64,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0.8rem 0;
+    padding: 0.7rem 0;
     border-bottom: 1px solid #ccc;
 }
 
@@ -145,7 +149,7 @@
     font-weight: 600;
     cursor: pointer;
     transition: all 0.2s;
-    margin-top: 1rem;
+    margin-top: 0.8rem;
 }
 
 .btn-rediger:hover {
