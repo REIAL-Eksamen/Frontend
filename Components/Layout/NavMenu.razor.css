@@ -71,6 +71,7 @@
 }
 
 .dropdown-menu {
+    display: none;
     position: absolute;
     right: 0;
     top: 75px;
@@ -79,6 +80,10 @@
     box-shadow: 0 4px 12px rgba(0,0,0,0.15);
     min-width: 180px;
     z-index: 200;
+}
+
+.dropdown-menu.show {
+    display: block;
 }
 
 .dropdown-menu a {
@@ -103,20 +108,4 @@
 .dropdown-menu a:last-child:hover {
     background-color: #fff5f5;
     color: #e53935;
-}
-
-.dropdown-menu {
-    display: none;
-    position: absolute;
-    right: 0;
-    top: 75px;
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    min-width: 180px;
-    z-index: 200;
-}
-
-.dropdown-menu.show {
-    display: block;
 }

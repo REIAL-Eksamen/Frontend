@@ -13,13 +13,16 @@
 
 .booking-list {
     padding: 1rem 2rem;
+    background-color: #2d2d2d;
+    min-height: 100vh;
 }
 
 .booking-item {
-    background: white;
+    background: #e8e8e8;
     margin-bottom: 1rem;
     border-radius: 8px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    color: #1a1a1a;
 }
 
 .booking-item-top {
@@ -27,14 +30,14 @@
     justify-content: space-between;
     align-items: center;
     padding: 1rem 1.5rem;
-    border-bottom: 1px solid #f0f0f0;
+    border-bottom: 1px solid #ccc;
 }
 
 .booking-item-bottom {
     display: flex;
     gap: 2rem;
     padding: 0.7rem 1.5rem;
-    color: #666;
+    color: #555;
     font-size: 0.9rem;
 }
 

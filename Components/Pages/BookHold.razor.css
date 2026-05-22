@@ -23,7 +23,8 @@
     padding: 0.5rem 1rem;
     border-radius: 20px;
     border: none;
-    background: white;
+    background: #e8e8e8;
+    color: #1a1a1a;
 }
 
 .btn-search {
@@ -48,6 +49,8 @@
 
 .class-list {
     padding: 1rem 2rem;
+    background-color: #2d2d2d;
+    min-height: 100vh;
 }
 
 .class-item {
@@ -55,88 +58,9 @@
     justify-content: space-between;
     align-items: center;
     padding: 1rem;
-    border-bottom: 1px solid #ddd;
-    background: white;
-}
-
-.btn-tilmeld {
-    padding: 0.5rem 1.5rem;
-    border-radius: 20px;
-    border: none;
-    background-color: #4CAF50;
-    color: white;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-.btn-venteliste {
-    padding: 0.5rem 1.5rem;
-    border-radius: 20px;
-    border: none;
-    background-color: #888;
-    color: white;
-    font-weight: bold;
-    cursor: pointer;
-}
-.booking-header {
-    background-color: #1a1a1a;
-    color: white;
-    text-align: center;
-    padding: 2rem;
-}
-
-.booking-header h1 {
-    font-size: 2.5rem;
-    font-weight: bold;
-    letter-spacing: 3px;
-}
-
-.filters {
-    display: flex;
-    gap: 1rem;
-    padding: 1rem;
-    background-color: #1a1a1a;
-    justify-content: center;
-}
-
-.filter-select {
-    padding: 0.5rem 1rem;
-    border-radius: 20px;
-    border: none;
-    background: white;
-}
-
-.btn-search {
-    padding: 0.5rem 2rem;
-    border-radius: 20px;
-    border: none;
-    background-color: #4CAF50;
-    color: white;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-.btn-reset {
-    padding: 0.5rem 2rem;
-    border-radius: 20px;
-    border: none;
-    background-color: #4CAF50;
-    color: white;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-.class-list {
-    padding: 1rem 2rem;
-}
-
-.class-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem;
-    border-bottom: 1px solid #ddd;
-    background: white;
+    border-bottom: 1px solid #ccc;
+    background: #e8e8e8;
+    color: #1a1a1a;
 }
 
 .btn-tilmeld {

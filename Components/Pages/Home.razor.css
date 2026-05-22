@@ -1,0 +1,256 @@
+.home-container {
+    padding: 2rem 3rem;
+    background-color: #2d2d2d;
+    min-height: 100vh;
+    color: white;
+}
+
+.welcome-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.welcome-sub {
+    color: #ccc;
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+.welcome-text h1 {
+    font-size: 2.5rem;
+    font-weight: 900;
+    margin: 0.3rem 0;
+    color: white;
+}
+
+.membership-badge {
+    color: #4CAF50;
+    font-weight: 600;
+    margin: 0;
+}
+
+.btn-book {
+    padding: 0.9rem 2rem;
+    border-radius: 30px;
+    background-color: #4CAF50;
+    color: white;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 0.2s;
+}
+
+.btn-book:hover {
+    background-color: #388E3C;
+    color: white;
+    transform: scale(1.05);
+}
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    grid-template-rows: auto auto;
+    gap: 1.5rem;
+}
+
+.card {
+    background: #e8e8e8;
+    border-radius: 16px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    transition: transform 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+    color: #1a1a1a;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+}
+
+.card h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: #444;
+}
+
+.training-card {
+    grid-column: 1;
+    grid-row: 1;
+}
+
+.points-card {
+    grid-column: 2;
+    grid-row: 1 / 3;
+}
+
+.busy-card {
+    grid-column: 1;
+    grid-row: 2;
+}
+
+.next-booking-card {
+    grid-column: 1 / 3;
+    grid-row: 3;
+}
+
+.gauge-number {
+    font-size: 4rem;
+    font-weight: 900;
+    color: #1a1a1a;
+    line-height: 1;
+}
+
+.gauge-label {
+    color: #555;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+}
+
+.gauge-bar {
+    background: #bbb;
+    border-radius: 10px;
+    height: 10px;
+    margin-bottom: 0.5rem;
+}
+
+.gauge-fill {
+    background: #4CAF50;
+    border-radius: 10px;
+    height: 100%;
+}
+
+.gauge-avg {
+    color: #555;
+    font-size: 0.85rem;
+    margin: 0;
+}
+
+.points-number {
+    font-size: 3rem;
+    font-weight: 900;
+    color: #1a1a1a;
+    line-height: 1;
+}
+
+.points-sub {
+    color: #555;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+}
+
+.points-bar {
+    background: #bbb;
+    border-radius: 10px;
+    height: 10px;
+    margin-bottom: 0.5rem;
+}
+
+.points-fill {
+    background: #FFB300;
+    border-radius: 10px;
+    height: 100%;
+}
+
+.points-next {
+    color: #555;
+    font-size: 0.85rem;
+    margin: 0;
+}
+
+.busy-sub {
+    color: #555;
+    font-size: 0.85rem;
+    margin-bottom: 1rem;
+}
+
+.busy-times {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-end;
+}
+
+.busy-slot {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.8rem;
+    color: #555;
+    flex: 1;
+}
+
+.busy-level {
+    width: 100%;
+    border-radius: 6px;
+    transition: transform 0.2s;
+}
+
+.busy-slot:hover .busy-level {
+    transform: scaleY(1.1);
+}
+
+.busy-level.low {
+    height: 30px;
+    background: #2E7D32;
+}
+
+.busy-level.medium {
+    height: 60px;
+    background: #F57F17;
+}
+
+.busy-level.high {
+    height: 90px;
+    background: #C62828;
+}
+
+.busy-text {
+    font-size: 0.75rem;
+}
+
+.next-booking {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.booking-info {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+}
+
+.booking-class {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #1a1a1a;
+}
+
+.booking-time {
+    color: #4CAF50;
+    font-weight: 600;
+}
+
+.booking-place {
+    color: #555;
+    font-size: 0.9rem;
+}
+
+.btn-see-all {
+    padding: 0.5rem 1.2rem;
+    border-radius: 20px;
+    border: 2px solid #4CAF50;
+    color: #4CAF50;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s;
+}
+
+.btn-see-all:hover {
+    background: #4CAF50;
+    color: white;
+    transform: scale(1.05);
+}

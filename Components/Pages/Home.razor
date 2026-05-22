@@ -1,0 +1,77 @@
+﻿@page "/"
+
+<PageTitle>Hjem - FitLife</PageTitle>
+
+<div class="home-container">
+    <div class="welcome-section">
+        <div class="welcome-text">
+            <p class="welcome-sub">Fredag, 22. maj 2026</p>
+            <h1>Hej, Enni 👋</h1>
+            <p class="membership-badge">⭐ Premium medlem</p>
+        </div>
+        <a href="/bookhold" class="btn-book">BOOK ET HOLD</a>
+    </div>
+
+    <div class="dashboard-grid">
+        <div class="card training-card">
+            <h3>Træningsdage denne uge</h3>
+            <div class="gauge-container">
+                <div class="gauge-number">3</div>
+                <div class="gauge-label">ud af 7 dage</div>
+                <div class="gauge-bar">
+                    <div class="gauge-fill" style="width: 43%"></div>
+                </div>
+                <p class="gauge-avg">Dit gennemsnit: 4 dage</p>
+            </div>
+        </div>
+
+        <div class="card points-card">
+            <h3>🏆 FitPoints</h3>
+            <div class="points-number">1.240</div>
+            <p class="points-sub">point optjent</p>
+            <div class="points-bar">
+                <div class="points-fill" style="width: 62%"></div>
+            </div>
+            <p class="points-next">238 point til næste belønning</p>
+        </div>
+
+        <div class="card busy-card">
+            <h3>📍 Århus C, Scandinavian</h3>
+            <p class="busy-sub">Mest travle tidspunkter i dag</p>
+            <div class="busy-times">
+                <div class="busy-slot">
+                    <span>08:00</span>
+                    <div class="busy-level low"></div>
+                    <span class="busy-text">Roligt</span>
+                </div>
+                <div class="busy-slot">
+                    <span>12:00</span>
+                    <div class="busy-level medium"></div>
+                    <span class="busy-text">Moderat</span>
+                </div>
+                <div class="busy-slot">
+                    <span>17:00</span>
+                    <div class="busy-level high"></div>
+                    <span class="busy-text">Travlt</span>
+                </div>
+                <div class="busy-slot">
+                    <span>19:00</span>
+                    <div class="busy-level medium"></div>
+                    <span class="busy-text">Moderat</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="card next-booking-card">
+            <h3>📅 Næste booking</h3>
+            <div class="next-booking">
+                <div class="booking-info">
+                    <span class="booking-class">Pilates</span>
+                    <span class="booking-time">7/5 kl. 10:30</span>
+                    <span class="booking-place">Århus C, Scandinavian</span>
+                </div>
+                <a href="/minebookinger" class="btn-see-all">Se alle</a>
+            </div>
+        </div>
+    </div>
+</div>

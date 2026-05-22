@@ -2,6 +2,7 @@
     max-width: 800px;
     margin: 3rem auto;
     padding: 0 2rem;
+    min-height: 100vh;
 }
 
 .profil-header {
@@ -15,7 +16,7 @@
     width: 100px;
     height: 100px;
     border-radius: 50%;
-    background-color: #f0f0f0;
+    background-color: #e8e8e8;
     border: 4px solid #4CAF50;
     display: flex;
     align-items: center;
@@ -27,30 +28,32 @@
     font-size: 2rem;
     font-weight: 700;
     margin: 0;
+    color: white;
 }
 
 .profil-navn p {
-    color: #666;
+    color: #ccc;
     margin: 0;
 }
 
 .profil-kort {
-    background: white;
+    background: #e8e8e8;
     border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
     padding: 2rem;
     margin-bottom: 1.5rem;
+    color: #1a1a1a;
 }
 
 .profil-kort h2 {
     font-size: 1.1rem;
     font-weight: 600;
-    color: #666;
+    color: #555;
     text-transform: uppercase;
     letter-spacing: 1px;
     margin-bottom: 1.5rem;
     padding-bottom: 0.5rem;
-    border-bottom: 2px solid #f0f0f0;
+    border-bottom: 2px solid #ccc;
 }
 
 .profil-felt {
@@ -58,7 +61,7 @@
     justify-content: space-between;
     align-items: center;
     padding: 0.8rem 0;
-    border-bottom: 1px solid #f5f5f5;
+    border-bottom: 1px solid #ccc;
 }
 
 .profil-felt:last-child {
@@ -66,13 +69,14 @@
 }
 
 .felt-label {
-    color: #666;
+    color: #555;
     font-size: 0.95rem;
 }
 
 .felt-value {
     font-weight: 500;
     font-size: 0.95rem;
+    color: #1a1a1a;
 }
 
 .membership-aktiv {
@@ -82,8 +86,8 @@
 }
 
 .badge-aktiv {
-    background-color: #e8f5e9;
-    color: #2e7d32;
+    background-color: #1b5e20;
+    color: #4CAF50;
     padding: 0.3rem 1rem;
     border-radius: 20px;
     font-weight: 600;
@@ -91,8 +95,8 @@
 }
 
 .badge-inaktiv {
-    background-color: #ffebee;
-    color: #c62828;
+    background-color: #4a0000;
+    color: #ef9a9a;
     padding: 0.3rem 1rem;
     border-radius: 20px;
     font-weight: 600;
@@ -103,7 +107,7 @@
     padding: 0.4rem 1rem;
     border-radius: 20px;
     border: 2px solid #e53935;
-    background: white;
+    background: transparent;
     color: #e53935;
     font-weight: 600;
     cursor: pointer;
@@ -136,7 +140,7 @@
     padding: 0.6rem 1.5rem;
     border-radius: 20px;
     border: 2px solid #4CAF50;
-    background: white;
+    background: transparent;
     color: #4CAF50;
     font-weight: 600;
     cursor: pointer;
