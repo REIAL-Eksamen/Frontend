@@ -1,10 +1,21 @@
 using Frontend.Components;
+using Frontend.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
-    .AddInteractiveServerComponents();
+    .AddInteractiveServerComponents(); ;
+
+builder.Services.AddScoped<AuthClientService>();
+
+builder.Services.AddScoped(sp =>
+    new HttpClient
+    {
+        // Denne addresse skal måske skiftes alt efter hvor der skal hentes data fra
+        // eller så skal vi lave en bedre løsning hihi
+        BaseAddress = new Uri("http://localhost:8080/")
+    });
 
 var app = builder.Build();
 

@@ -1,30 +1,36 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="">Frontend</a>
-    </div>
-</div>
-
-<input type="checkbox" title="Navigation menu" class="navbar-toggler" />
-
-<div class="nav-scrollable" onclick="document.querySelector('.navbar-toggler').click()">
-    <nav class="nav flex-column">
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Home
-            </NavLink>
+﻿<header class="fitlife-header">
+    <nav class="fitlife-nav">
+        <a href="/hjem" class="logo">
+            <span class="logo-fit">FIT</span><span class="logo-life">LIFE</span>
+        </a>
+        <div class="nav-links">
+            <NavLink href="/hjem">Hjem</NavLink>
+            <NavLink href="findcentre">Find centre</NavLink>
+            <NavLink href="bookhold">Book hold</NavLink>
+            <NavLink href="personligtræning">Personlig træning</NavLink>
+            <NavLink href="træningsplaner">Træningsplaner</NavLink>
         </div>
-
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="counter">
-                <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Counter
-            </NavLink>
-        </div>
-
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="weather">
-                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Weather
-            </NavLink>
+        <div class="user-avatar">
+            <div class="avatar-circle" onclick="toggleDropdown()">👤</div>
+            <div class="dropdown-menu" id="dropdownMenu">
+                <a href="/profil">Min profil</a>
+                <a href="/minebookinger">Mine bookinger</a>
+                <a href="/logout">Log ud</a>
+            </div>
         </div>
     </nav>
-</div>
+</header>
 
+<script>
+    function toggleDropdown() {
+        var menu = document.getElementById('dropdownMenu');
+        menu.classList.toggle('show');
+    }
+
+    document.addEventListener('click', function(e) {
+        var avatar = document.querySelector('.user-avatar');
+        if (!avatar.contains(e.target)) {
+            document.getElementById('dropdownMenu').classList.remove('show');
+        }
+    });
+</script>

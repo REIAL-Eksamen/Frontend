@@ -1,0 +1,141 @@
+.booking-page {
+    background-image: url('/images/baggrundsp3.jpg');
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    overflow: hidden;
+    position: relative;
+}
+
+.booking-overlay {
+    background: rgba(0,0,0,0.65);
+    height: 100vh;
+    overflow: hidden;
+    padding: 1.5rem 2rem 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+.booking-overlay h1 {
+    color: white;
+    font-size: 2rem;
+    font-weight: bold;
+    letter-spacing: 3px;
+    margin-bottom: 0.3rem;
+    flex-shrink: 0;
+}
+
+.booking-overlay > p {
+    color: #ccc;
+    font-size: 0.85rem;
+    margin-bottom: 1rem;
+    flex-shrink: 0;
+}
+
+.filters {
+    display: flex;
+    gap: 0.7rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.filter-select {
+    padding: 0.4rem 0.9rem;
+    border-radius: 20px;
+    border: none;
+    background: white;
+    color: #1a1a1a;
+    cursor: pointer;
+    font-size: 0.85rem;
+}
+
+.btn-search {
+    padding: 0.4rem 1.5rem;
+    border-radius: 20px;
+    border: none;
+    background-color: #4CAF50;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 0.85rem;
+}
+
+.btn-reset {
+    padding: 0.4rem 1.5rem;
+    border-radius: 20px;
+    border: none;
+    background-color: #4CAF50;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 0.85rem;
+}
+
+.class-list {
+    width: 100%;
+    max-width: 1200px;
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    background: rgba(0,0,0,0.5);
+    border-radius: 12px;
+    padding: 0.8rem;
+    scrollbar-width: thin;
+    scrollbar-color: #4CAF50 rgba(255,255,255,0.1);
+}
+
+.class-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.class-list::-webkit-scrollbar-track {
+    background: rgba(255,255,255,0.05);
+    border-radius: 10px;
+}
+
+.class-list::-webkit-scrollbar-thumb {
+    background: #4CAF50;
+    border-radius: 10px;
+}
+
+.class-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 1.2rem;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    background: rgba(255,255,255,0.1);
+    color: white;
+    backdrop-filter: blur(4px);
+    margin-bottom: 0.4rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+}
+
+.btn-tilmeld {
+    padding: 0.4rem 1.2rem;
+    border-radius: 20px;
+    border: none;
+    background-color: #4CAF50;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 0.85rem;
+    white-space: nowrap;
+}
+
+.btn-venteliste {
+    padding: 0.4rem 1.2rem;
+    border-radius: 20px;
+    border: none;
+    background-color: #888;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 0.85rem;
+    white-space: nowrap;
+}

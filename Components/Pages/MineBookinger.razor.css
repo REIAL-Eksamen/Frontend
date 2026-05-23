@@ -1,0 +1,75 @@
+.bookinger-header {
+    background-color: #1a1a1a;
+    color: white;
+    text-align: center;
+    padding: 1rem 2rem;
+}
+
+.bookinger-header h1 {
+    font-size: 2rem;
+    font-weight: bold;
+    letter-spacing: 3px;
+}
+
+.booking-list {
+    padding: 1rem 2rem;
+    background-color: #2d2d2d;
+    height: calc(100vh - 72px);
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #4CAF50 #2d2d2d;
+}
+
+.booking-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.booking-list::-webkit-scrollbar-track {
+    background: #2d2d2d;
+}
+
+.booking-list::-webkit-scrollbar-thumb {
+    background: #4CAF50;
+    border-radius: 10px;
+}
+
+.booking-item {
+    background: #e8e8e8;
+    margin-bottom: 0.8rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    color: #1a1a1a;
+}
+
+.booking-item-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.8rem 1.2rem;
+    border-bottom: 1px solid #ccc;
+    font-size: 0.9rem;
+}
+
+.booking-item-bottom {
+    display: flex;
+    gap: 2rem;
+    padding: 0.5rem 1.2rem;
+    color: #555;
+    font-size: 0.82rem;
+}
+
+.btn-afmeld {
+    padding: 0.4rem 1.2rem;
+    border-radius: 20px;
+    border: none;
+    background-color: #4CAF50;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    font-size: 0.85rem;
+}
+
+.btn-afmeld:hover {
+    background-color: #388E3C;
+}

@@ -1,0 +1,67 @@
+@page "/"
+@rendermode InteractiveServer
+@using System.Net.Http.Headers
+@using Frontend.Services
+@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
+@inject ProtectedLocalStorage LocalStorage
+@inject AuthClientService AuthService
+@inject NavigationManager Nav
+
+<PageTitle>Log ind - FitLife</PageTitle>
+
+<div class="login-container">
+    <div class="login-box">
+        
+        <div class="login-logo">
+            <span class="logo-fit">FIT</span><span class="logo-life">LIFE</span>
+        </div>
+        
+        <p class="login-sub">Log ind på din konto</p>
+
+        <div class="form-group">
+            <label>Email</label>
+            <input type="email" placeholder="din@email.dk" class="form-input" @bind="email"/>
+        </div>
+
+        <div class="form-group">
+            <label>Adgangskode</label>
+            <input type="password" placeholder="••••••••" class="form-input" @bind="password"/>
+        </div>
+
+        <button class="btn-login" @onclick="LoginUser">LOG IND</button>
+
+        <p class="forgot">Glemt adgangskode?</p>
+        
+        @if (!string.IsNullOrEmpty(error))
+        {
+            <p style="color:red">@error</p>
+        }
+    </div>
+</div>
+
+@code {
+
+    private string email;
+    private string password;
+    private string error;
+
+    private async Task LoginUser()
+    {
+        Console.WriteLine("LOGIN TRYKKET");
+        
+        error = null;
+        
+        var token = await AuthService.Login(email, password);
+
+        if (token == null)
+        {
+            error = "Forkert email eller password";
+            return;
+        }
+        
+        await LocalStorage.SetAsync("jwt", token);
+        
+        Nav.NavigateTo("/hjem");
+    }
+
+}
