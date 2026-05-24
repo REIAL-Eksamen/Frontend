@@ -1,0 +1,80 @@
+@page "/opretmedlem"
+@rendermode InteractiveServer
+@using Frontend.Services
+@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
+@inject ProtectedLocalStorage LocalStorage
+@inject AuthClientService AuthService
+@inject NavigationManager Nav
+
+<PageTitle>Bliv medlem - FitLife</PageTitle>
+
+<div class="login-container">
+    <div class="login-box">
+        
+        <div class="login-logo">
+            <span class="logo-fit">FIT</span><span class="logo-life">LIFE</span>
+        </div>
+        
+        <p class="login-sub">Opret din profil i dag</p>
+
+        <div class="form-group">
+            <label>Email</label>
+            <input type="email" placeholder="din@email.dk" class="form-input" @bind="email"/>
+        </div>
+
+        <div class="form-group">
+            <label>Adgangskode</label>
+            <input type="password" placeholder="Password" class="form-input" @bind="password"/>
+        </div>
+        
+        <div class="form-group">
+            <label>Fornavn</label>
+            <input type="text" placeholder="Fornavn" class="form-input" @bind="firstName"/>
+        </div>
+        
+        <div class="form-group">
+            <label>Efternavn</label>
+            <input type="text" placeholder="Efternavn" class="form-input" @bind="lastName"/>
+        </div>
+        
+        <div class="form-group">
+            <label>phoneNumber</label>
+            <input type="text" placeholder="Telefon" class="form-input" @bind="phoneNumber"/>
+        </div>
+        
+        <button class="btn-login" @onclick="RegisterUser">Opret medlemskab</button>
+        
+        @if (!string.IsNullOrEmpty(error))
+        {
+            <p style="color:red">@error</p>
+        }
+    </div>
+</div>
+@code {
+    
+    private string email;
+    private string password;
+    private string firstName;
+    private string lastName;
+    private string phoneNumber;
+    private string error;
+
+    private async Task RegisterUser()
+    {
+        Console.WriteLine("REGISTER TRYKKET");
+        
+        error = null;
+        
+        var success = await AuthService.Register(email, password);
+        
+        Console.WriteLine($"SUCCESS: {success}");
+
+        if (!success)
+        {
+            error = "Forkert email eller password";
+            return;
+        }
+        
+        Nav.NavigateTo("/");
+    }
+}

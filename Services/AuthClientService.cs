@@ -28,6 +28,19 @@ public class AuthClientService
         var result = await response.Content.ReadFromJsonAsync<LoginResponse>();
         return result?.Token;
     }
+
+    public async Task<bool> Register(string email, string password)
+    {
+        var model = new RegisterModel
+        {
+            Email = email,
+            Password = password
+        };
+        
+        var response = await _http.PostAsJsonAsync("Auth/register", model);
+        
+        return response.IsSuccessStatusCode;
+    }
 }
 
 public class LoginResponse

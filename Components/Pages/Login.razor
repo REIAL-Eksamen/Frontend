@@ -30,7 +30,10 @@
 
         <button class="btn-login" @onclick="LoginUser">LOG IND</button>
 
-        <p class="forgot">Glemt adgangskode?</p>
+        <p class="forgot">Glemt adgangskode</p>
+        
+        <p class="forgot">Ikke medlem endnu?</p>
+        <button class="btn-login" @onclick="GoToRegisterUser">Opret medlemskab</button>
         
         @if (!string.IsNullOrEmpty(error))
         {
@@ -63,5 +66,11 @@
         
         Nav.NavigateTo("/hjem");
     }
+
+    private async Task GoToRegisterUser()
+    {
+        Console.WriteLine("REGISTER TRYKKET");
+        
+        Nav.NavigateTo("/opretmedlem");    }
 
 }
