@@ -29,12 +29,19 @@ public class AuthClientService
         return result?.Token;
     }
 
-    public async Task<bool> Register(string email, string password)
+    public async Task<bool> Register(string email, string password, string firstname, string lastname, string phonenumber, MembershipType membership, MembershipStatus status)
     {
         var model = new RegisterModel
         {
             Email = email,
-            Password = password
+            Password = password,
+            FirstName = firstname,
+            LastName = lastname,
+            PhoneNumber = phonenumber,
+            Membership = MembershipType.Standard,
+            MembershipStatus = MembershipStatus.Active
+            
+            
         };
         
         var response = await _http.PostAsJsonAsync("Auth/register", model);

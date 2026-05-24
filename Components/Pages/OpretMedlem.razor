@@ -1,5 +1,6 @@
 @page "/opretmedlem"
 @rendermode InteractiveServer
+@using Frontend.Models
 @using Frontend.Services
 @using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
 @inject ProtectedLocalStorage LocalStorage
@@ -65,7 +66,7 @@
         
         error = null;
         
-        var success = await AuthService.Register(email, password);
+        var success = await AuthService.Register(email, password, firstName, lastName, phoneNumber, MembershipType.Standard, MembershipStatus.Active);
         
         Console.WriteLine($"SUCCESS: {success}");
 
