@@ -18,7 +18,7 @@ else
             <div class="profil-avatar">👤</div>
             <div class="profil-navn">
                 <h1>@user.FirstName @user.LastName</h1>
-                <p class="membership-type">Premium medlem</p>
+                <p class="membership-type">@user.Membership</p>
                 <p class="center-navn">Aarhus C, Scandinavian</p>
             </div>
             <button class="btn-rediger">REDIGER</button>
@@ -79,11 +79,11 @@ else
             <h2>Medlemskab</h2>
             <div class="profil-felt">
                 <span class="felt-label">Status</span>
-                <span class="badge-aktiv">AKTIV</span>
+                <span class="badge-aktiv">@user.MembershipStatus</span>
             </div>
             <div class="profil-felt">
                 <span class="felt-label">Type</span>
-                <span class="felt-value">Premium</span>
+                <span class="felt-value">@user.Membership</span>
             </div>
             <div class="profil-felt">
                 <span class="felt-label">Fornyes</span>
@@ -103,15 +103,15 @@ else
             <h2>Personlige oplysninger</h2>
             <div class="profil-felt">
                 <span class="felt-label">Navn</span>
-                <span class="felt-value">Anders Nielsen</span>
+                <span class="felt-value">@user.FirstName @user.LastName</span>
             </div>
             <div class="profil-felt">
                 <span class="felt-label">Email</span>
-                <span class="felt-value">anders@mail.dk</span>
+                <span class="felt-value">@user.Email</span>
             </div>
             <div class="profil-felt">
                 <span class="felt-label">Telefon</span>
-                <span class="felt-value">+45 12 34 56 78</span>
+                <span class="felt-value">@user.PhoneNumber</span>
             </div>
         </div>
 
