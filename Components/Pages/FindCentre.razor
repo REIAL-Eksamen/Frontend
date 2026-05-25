@@ -1,5 +1,126 @@
-﻿@page "/not-found"
-@layout MainLayout
+﻿@page "/findcentre"
 
-<h3>Not Found</h3>
-<p>Sorry, the content you are looking for does not exist.</p>
+<PageTitle>Find centre - FitLife</PageTitle>
+
+<div class="fc-container">
+
+    <div class="fc-header">
+        <h1>FIND ET CENTER</h1>
+        <p class="fc-sub">Vi har 6 centre i Midtjylland — find dit nærmeste</p>
+    </div>
+
+    <div class="fc-layout">
+
+        <div class="kort-wrapper">
+            <img src="/images/kort.png" class="kort-billede" alt="Kort over centre"/>
+
+            @foreach (var c in centre)
+            {
+                <button class="pin @(aktivtCenter?.Navn == c.Navn ? "pin-aktiv" : "")"
+                        style="left: @(c.PinX)%; top: @(c.PinY)%;"
+                        @onclick="() => VaelgCenter(c)">
+                    <span class="pin-dot"></span>
+                    <span class="pin-label">@c.By</span>
+                </button>
+            }
+        </div>
+
+        <div class="center-liste">
+            @foreach (var c in centre)
+            {
+                <div class="center-kort @(aktivtCenter?.Navn == c.Navn ? "aktiv" : "")"
+                     @onclick="() => VaelgCenter(c)">
+                    <div class="ck-header">
+                        <div>
+                            <div class="ck-navn">@c.Navn</div>
+                            <div class="ck-adresse">@c.Adresse</div>
+                        </div>
+                        <span class="ck-arrow">@(aktivtCenter?.Navn == c.Navn ? "▲" : "▼")</span>
+                    </div>
+
+                    @if (aktivtCenter?.Navn == c.Navn)
+                    {
+                        <div class="ck-detaljer">
+                            <div class="ck-sektion">
+                                <span class="ck-label">ÅBNINGSTIDER</span>
+                                <div class="ck-tider">
+                                    <span>Man–Fre</span><span>@c.HverdagTid</span>
+                                    <span>Lør–Søn</span><span>@c.WeekendTid</span>
+                                </div>
+                            </div>
+                            <div class="ck-sektion">
+                                <span class="ck-label">FACILITETER</span>
+                                <div class="ck-faciliteter">
+                                    @foreach (var f in c.Faciliteter)
+                                    {
+                                        <span class="ck-facility">@f</span>
+                                    }
+                                </div>
+                            </div>
+                            <div class="ck-sektion">
+                                <span class="ck-label">KONTAKT</span>
+                                <span class="ck-info">@c.Telefon · @c.Email</span>
+                            </div>
+                            <a href="@c.MapsUrl" target="_blank" class="btn-vejledning">
+                                FÅ VEJLEDNING
+                            </a>
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+
+    </div>
+
+</div>
+
+@code {
+
+    private record CenterInfo(
+        string Navn, string By, string Adresse,
+        string HverdagTid, string WeekendTid,
+        string Telefon, string Email, string MapsUrl,
+        double PinX, double PinY,
+        List<string> Faciliteter
+    );
+
+    private CenterInfo aktivtCenter;
+
+    private void VaelgCenter(CenterInfo c)
+    {
+        aktivtCenter = aktivtCenter?.Navn == c.Navn ? null : c;
+    }
+
+    private List<CenterInfo> centre = new()
+    {
+        new("Århus C, Scandinavian", "Aarhus", "Scandinavian Center, Åboulevarden 1, 8000 Aarhus C",
+            "06:00–23:00", "08:00–21:00", "+45 70 20 30 40", "aarhus-scan@fitlife.dk",
+            "https://maps.google.com/?q=Åboulevarden+1,+8000+Aarhus", 70, 62,
+            new() { "Vægtrum", "Cardio", "Hold", "Sauna", "Parkering" }),
+
+        new("Århus C, Spanien", "Aarhus", "Spanien 2, 8000 Aarhus C",
+            "06:00–23:00", "08:00–21:00", "+45 70 20 30 41", "aarhus-spa@fitlife.dk",
+            "https://maps.google.com/?q=Spanien+2,+8000+Aarhus", 71, 64,
+            new() { "Vægtrum", "Cardio", "Hold", "Pool" }),
+
+        new("Randers, Viborgvej", "Randers", "Viborgvej 45, 8900 Randers",
+            "06:00–22:00", "08:00–20:00", "+45 70 20 30 42", "randers@fitlife.dk",
+            "https://maps.google.com/?q=Viborgvej+45,+8900+Randers", 63, 36,
+            new() { "Vægtrum", "Cardio", "Hold", "Parkering" }),
+
+        new("Horsens, Forum", "Horsens", "Forum Alle 1, 8700 Horsens",
+            "06:00–22:00", "08:00–20:00", "+45 70 20 30 43", "horsens@fitlife.dk",
+            "https://maps.google.com/?q=Forum+Alle+1,+8700+Horsens", 57, 90,
+            new() { "Vægtrum", "Cardio", "Hold", "Sauna" }),
+
+        new("Skanderborg, Ringvejen", "Skanderborg", "Ringvejen 12, 8660 Skanderborg",
+            "07:00–22:00", "08:00–20:00", "+45 70 20 30 44", "skanderborg@fitlife.dk",
+            "https://maps.google.com/?q=Ringvejen+12,+8660+Skanderborg", 62, 77,
+            new() { "Vægtrum", "Cardio", "Hold" }),
+
+        new("Silkeborg, Midtpunktet", "Silkeborg", "Midtpunktet 3, 8600 Silkeborg",
+            "06:00–22:00", "08:00–20:00", "+45 70 20 30 45", "silkeborg@fitlife.dk",
+            "https://maps.google.com/?q=Silkeborg+8600", 49, 61,
+            new() { "Vægtrum", "Cardio", "Hold", "Parkering" }),
+    };
+}
