@@ -6,10 +6,12 @@ namespace Frontend.Services;
 public class AuthClientService
 {
     private readonly HttpClient _http;
+    private readonly TokenProvider _tokenProvider;
     
-    public  AuthClientService(HttpClient http)
+    public AuthClientService(HttpClient http, TokenProvider tokenProvider)
     {
         _http = http;
+        _tokenProvider = tokenProvider;
     }
 
     public async Task<string?> Login(string email, string password)
@@ -20,13 +22,18 @@ public class AuthClientService
             Password = password
         });
 
-        if (!response.IsSuccessStatusCode)
-        {
-            return null;
-        }
-
         var result = await response.Content.ReadFromJsonAsync<LoginResponse>();
-        return result?.Token;
+
+        if (result?.Token is null)
+            return null;
+        
+        Console.WriteLine("=== JWT TOKEN ===");
+        Console.WriteLine(result.Token);
+        Console.WriteLine("=================");
+
+        _tokenProvider.Token = result.Token;
+
+        return result.Token;
     }
 
     public async Task<bool> Register(string email, string password, string firstname, string lastname, string phonenumber, MembershipType membership, MembershipStatus status)

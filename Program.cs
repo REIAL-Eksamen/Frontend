@@ -7,15 +7,19 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents(); ;
 
-builder.Services.AddScoped<AuthClientService>();
+builder.Services.AddSingleton<TokenProvider>();
+builder.Services.AddSingleton<AuthHeaderHandler>();
 
-builder.Services.AddScoped(sp =>
-    new HttpClient
+builder.Services.AddHttpClient<AuthClientService>(c =>
+{
+    c.BaseAddress = new Uri("http://localhost:8080/");
+});
+
+builder.Services.AddHttpClient<UserClientService>(c =>
     {
-        // Denne addresse skal måske skiftes alt efter hvor der skal hentes data fra
-        // eller så skal vi lave en bedre løsning hihi
-        BaseAddress = new Uri("http://localhost:8080/")
-    });
+        c.BaseAddress = new Uri("http://localhost:5047/");
+    })
+    .AddHttpMessageHandler<AuthHeaderHandler>();
 
 var app = builder.Build();
 

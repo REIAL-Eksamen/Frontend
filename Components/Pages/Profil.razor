@@ -1,110 +1,147 @@
-﻿@page "/profil"
+﻿@using Frontend.Services
+@using Frontend.Models
+@inject UserClientService UserService
+
+@page "/profil"
 
 <PageTitle>Min profil - FitLife</PageTitle>
 
-<div class="profil-container">
+@if (user == null)
+{
+    <p>Indlæser...</p>
+}
+else
+{
+    <div class="profil-container">
 
-    <div class="profil-header">
-        <div class="profil-avatar">👤</div>
-        <div class="profil-navn">
-            <h1>Anders Nielsen</h1>
-            <p class="membership-type">Premium medlem</p>
-            <p class="center-navn">Aarhus C, Scandinavian</p>
+        <div class="profil-header">
+            <div class="profil-avatar">👤</div>
+            <div class="profil-navn">
+                <h1>@user.FirstName @user.LastName</h1>
+                <p class="membership-type">Premium medlem</p>
+                <p class="center-navn">Aarhus C, Scandinavian</p>
+            </div>
+            <button class="btn-rediger">REDIGER</button>
         </div>
-        <button class="btn-rediger">REDIGER</button>
-    </div>
-
-    <div class="stat-grid">
-        <div class="stat-kort green">
-            <div class="stat-label">FitPoints</div>
-            <div class="stat-value">1.240</div>
-            <div class="stat-sub">↑ +85 denne uge</div>
-            <div class="stat-bar-bg">
-                <div class="stat-bar-fill" style="width: 62%"></div>
+        }
+        <div class="stat-grid">
+            <div class="stat-kort green">
+                <div class="stat-label">FitPoints</div>
+                <div class="stat-value">1.240</div>
+                <div class="stat-sub">↑ +85 denne uge</div>
+                <div class="stat-bar-bg">
+                    <div class="stat-bar-fill" style="width: 62%"></div>
+                </div>
+            </div>
+            <div class="stat-kort green2">
+                <div class="stat-label">Besøg denne uge</div>
+                <div class="stat-value">3</div>
+                <div class="stat-sub">Mål: 5 besøg</div>
+                <div class="stat-bar-bg">
+                    <div class="stat-bar-fill" style="width: 60%"></div>
+                </div>
+            </div>
+            <div class="stat-kort dark">
+                <div class="stat-label">Hold booket</div>
+                <div class="stat-value">2</div>
+                <div class="stat-sub">Næste: Tors 10:30</div>
             </div>
         </div>
-        <div class="stat-kort green2">
-            <div class="stat-label">Besøg denne uge</div>
-            <div class="stat-value">3</div>
-            <div class="stat-sub">Mål: 5 besøg</div>
-            <div class="stat-bar-bg">
-                <div class="stat-bar-fill" style="width: 60%"></div>
+
+        <div class="profil-kort highlight">
+            <h2>Ugens besøg</h2>
+            <div class="uge-grid">
+                <div class="uge-dag">
+                    <div class="uge-dot besogt">M</div>
+                    <div class="uge-navn">Man</div></div>
+                <div class="uge-dag">
+                    <div class="uge-dot besogt">T</div>
+                    <div class="uge-navn">Tir</div></div>
+                <div class="uge-dag">
+                    <div class="uge-dot tom">O</div>
+                    <div class="uge-navn">Ons</div></div>
+                <div class="uge-dag">
+                    <div class="uge-dot besogt">T</div>
+                    <div class="uge-navn">Tor</div></div>
+                <div class="uge-dag">
+                    <div class="uge-dot idag">F</div>
+                    <div class="uge-navn">Fre</div></div>
+                <div class="uge-dag">
+                    <div class="uge-dot tom">L</div>
+                    <div class="uge-navn">Lør</div></div>
+                <div class="uge-dag">
+                    <div class="uge-dot tom">S</div>
+                    <div class="uge-navn">Søn</div></div>
             </div>
         </div>
-        <div class="stat-kort dark">
-            <div class="stat-label">Hold booket</div>
-            <div class="stat-value">2</div>
-            <div class="stat-sub">Næste: Tors 10:30</div>
+
+        <div class="profil-kort">
+            <h2>Medlemskab</h2>
+            <div class="profil-felt">
+                <span class="felt-label">Status</span>
+                <span class="badge-aktiv">AKTIV</span>
+            </div>
+            <div class="profil-felt">
+                <span class="felt-label">Type</span>
+                <span class="felt-value">Premium</span>
+            </div>
+            <div class="profil-felt">
+                <span class="felt-label">Fornyes</span>
+                <span class="felt-value">1. juni 2026</span>
+            </div>
+            <div class="profil-felt">
+                <span class="felt-label">Center</span>
+                <span class="felt-value">Aarhus C, Scandinavian</span>
+            </div>
+            <div class="profil-felt">
+                <span class="felt-label">Opsig medlemskab</span>
+                <button class="btn-opsig">OPSIG</button>
+            </div>
         </div>
+
+        <div class="profil-kort">
+            <h2>Personlige oplysninger</h2>
+            <div class="profil-felt">
+                <span class="felt-label">Navn</span>
+                <span class="felt-value">Anders Nielsen</span>
+            </div>
+            <div class="profil-felt">
+                <span class="felt-label">Email</span>
+                <span class="felt-value">anders@mail.dk</span>
+            </div>
+            <div class="profil-felt">
+                <span class="felt-label">Telefon</span>
+                <span class="felt-value">+45 12 34 56 78</span>
+            </div>
+        </div>
+
+        <button class="btn-qr">
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+                <rect x="1" y="1" width="8" height="8" rx="1" stroke="white" stroke-width="1.5"/>
+                <rect x="3" y="3" width="4" height="4" fill="white"/>
+                <rect x="13" y="1" width="8" height="8" rx="1" stroke="white" stroke-width="1.5"/>
+                <rect x="15" y="3" width="4" height="4" fill="white"/>
+                <rect x="1" y="13" width="8" height="8" rx="1" stroke="white" stroke-width="1.5"/>
+                <rect x="3" y="15" width="4" height="4" fill="white"/>
+                <rect x="13" y="13" width="2" height="2" fill="white"/>
+                <rect x="17" y="13" width="2" height="2" fill="white"/>
+                <rect x="13" y="17" width="2" height="2" fill="white"/>
+                <rect x="17" y="17" width="2" height="2" fill="white"/>
+            </svg>
+            SCAN VED INDGANG
+        </button>
+
     </div>
 
-    <div class="profil-kort highlight">
-        <h2>Ugens besøg</h2>
-        <div class="uge-grid">
-            <div class="uge-dag"><div class="uge-dot besogt">M</div><div class="uge-navn">Man</div></div>
-            <div class="uge-dag"><div class="uge-dot besogt">T</div><div class="uge-navn">Tir</div></div>
-            <div class="uge-dag"><div class="uge-dot tom">O</div><div class="uge-navn">Ons</div></div>
-            <div class="uge-dag"><div class="uge-dot besogt">T</div><div class="uge-navn">Tor</div></div>
-            <div class="uge-dag"><div class="uge-dot idag">F</div><div class="uge-navn">Fre</div></div>
-            <div class="uge-dag"><div class="uge-dot tom">L</div><div class="uge-navn">Lør</div></div>
-            <div class="uge-dag"><div class="uge-dot tom">S</div><div class="uge-navn">Søn</div></div>
-        </div>
-    </div>
+@code {
 
-    <div class="profil-kort">
-        <h2>Medlemskab</h2>
-        <div class="profil-felt">
-            <span class="felt-label">Status</span>
-            <span class="badge-aktiv">AKTIV</span>
-        </div>
-        <div class="profil-felt">
-            <span class="felt-label">Type</span>
-            <span class="felt-value">Premium</span>
-        </div>
-        <div class="profil-felt">
-            <span class="felt-label">Fornyes</span>
-            <span class="felt-value">1. juni 2026</span>
-        </div>
-        <div class="profil-felt">
-            <span class="felt-label">Center</span>
-            <span class="felt-value">Aarhus C, Scandinavian</span>
-        </div>
-        <div class="profil-felt">
-            <span class="felt-label">Opsig medlemskab</span>
-            <button class="btn-opsig">OPSIG</button>
-        </div>
-    </div>
+    private UserModel? user;
 
-    <div class="profil-kort">
-        <h2>Personlige oplysninger</h2>
-        <div class="profil-felt">
-            <span class="felt-label">Navn</span>
-            <span class="felt-value">Anders Nielsen</span>
-        </div>
-        <div class="profil-felt">
-            <span class="felt-label">Email</span>
-            <span class="felt-value">anders@mail.dk</span>
-        </div>
-        <div class="profil-felt">
-            <span class="felt-label">Telefon</span>
-            <span class="felt-value">+45 12 34 56 78</span>
-        </div>
-    </div>
+    protected override async Task OnInitializedAsync()
+    {
+        user = await UserService.GetCurrentUser();
+    }
 
-    <button class="btn-qr">
-        <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
-            <rect x="1" y="1" width="8" height="8" rx="1" stroke="white" stroke-width="1.5"/>
-            <rect x="3" y="3" width="4" height="4" fill="white"/>
-            <rect x="13" y="1" width="8" height="8" rx="1" stroke="white" stroke-width="1.5"/>
-            <rect x="15" y="3" width="4" height="4" fill="white"/>
-            <rect x="1" y="13" width="8" height="8" rx="1" stroke="white" stroke-width="1.5"/>
-            <rect x="3" y="15" width="4" height="4" fill="white"/>
-            <rect x="13" y="13" width="2" height="2" fill="white"/>
-            <rect x="17" y="13" width="2" height="2" fill="white"/>
-            <rect x="13" y="17" width="2" height="2" fill="white"/>
-            <rect x="17" y="17" width="2" height="2" fill="white"/>
-        </svg>
-        SCAN VED INDGANG
-    </button>
+}
 
-</div>
+}
