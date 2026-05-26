@@ -1,0 +1,218 @@
+.plans-page {
+    background-image: url('/images/baggrundsp2.jpg');
+    background-size: cover;
+    background-position: center;
+    height: calc(100vh - 70px);
+    overflow: hidden;
+}
+
+.plans-overlay {
+    background: rgba(0,0,0,0.74);
+    height: 100%;
+    padding: 2rem;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+}
+
+/* HEADER */
+
+.plans-header {
+    margin-bottom: 1.5rem;
+    flex-shrink: 0;
+}
+
+.plans-header h1 {
+    color: white;
+    font-size: 2.3rem;
+    font-weight: 900;
+    letter-spacing: 3px;
+    margin-bottom: 0.35rem;
+}
+
+.plans-header p {
+    color: #bbb;
+    font-size: 0.9rem;
+}
+
+/* FILTERS */
+
+.plan-filters {
+    display: flex;
+    gap: 0.8rem;
+    flex-wrap: wrap;
+    margin-bottom: 1.5rem;
+    flex-shrink: 0;
+}
+
+.filter-btn {
+    padding: 0.55rem 1.4rem;
+    border-radius: 30px;
+    border: 1px solid rgba(255,255,255,0.25);
+    background: transparent;
+    color: white;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.filter-btn:hover {
+    border-color: #4CAF50;
+    color: #4CAF50;
+}
+
+.filter-btn.active {
+    background-color: #4CAF50;
+    border-color: #4CAF50;
+    color: white;
+}
+
+/* BIG SCROLL BOX */
+
+.plans-container {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    background: rgba(255,255,255,0.05);
+    border-radius: 16px;
+    padding: 1.5rem;
+
+    scrollbar-width: thin;
+    scrollbar-color: #4CAF50 rgba(255,255,255,0.08);
+}
+
+.plans-container::-webkit-scrollbar {
+    width: 7px;
+}
+
+.plans-container::-webkit-scrollbar-track {
+    background: rgba(255,255,255,0.05);
+}
+
+.plans-container::-webkit-scrollbar-thumb {
+    background: #4CAF50;
+    border-radius: 10px;
+}
+
+/* GRID */
+
+.plans-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 1.5rem;
+}
+
+/* CARD */
+
+.plan-card {
+    background: rgba(255,255,255,0.06);
+    border-radius: 14px;
+    overflow: hidden;
+    backdrop-filter: blur(5px);
+    transition: 0.22s ease;
+}
+
+.plan-card:hover {
+    transform: translateY(-4px);
+    background: rgba(255,255,255,0.1);
+}
+
+/* IMAGES */
+
+.plan-image {
+    height: 220px;
+    background-size: cover;
+    background-position: center;
+}
+
+.fullbody {
+    background-image: url('/images/fullbody.jpg');
+}
+
+.strength {
+    background-image: url('/images/strenghtb.jpg');
+}
+
+.lean {
+    background-image: url('/images/lean.jpg');
+}
+
+.athlete {
+    background-image: url('/images/ATHLETE.jpg');
+}
+
+.classic1 {
+    background-image: url('/images/baggrundsp1.jpg');
+}
+
+.classic2 {
+    background-image: url('/images/baggrundsp3.jpg');
+}
+
+/* CONTENT */
+
+.plan-content {
+    padding: 1.3rem;
+}
+
+.plan-level {
+    display: inline-block;
+    color: #4CAF50;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    margin-bottom: 0.7rem;
+}
+
+.plan-content h2 {
+    color: white;
+    font-size: 1.2rem;
+    font-weight: 800;
+    margin-bottom: 0.7rem;
+    letter-spacing: 1px;
+}
+
+.plan-content p {
+    color: #bbb;
+    font-size: 0.83rem;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+.plan-info {
+    display: flex;
+    gap: 0.7rem;
+    flex-wrap: wrap;
+    margin-bottom: 1.2rem;
+}
+
+.plan-info span {
+    padding: 0.35rem 0.8rem;
+    border-radius: 20px;
+    background: rgba(255,255,255,0.08);
+    color: white;
+    font-size: 0.74rem;
+}
+
+/* BUTTON */
+
+.plan-btn {
+    width: 100%;
+    padding: 0.8rem;
+    border: none;
+    border-radius: 30px;
+    background-color: #4CAF50;
+    color: white;
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.plan-btn:hover {
+    background-color: #388E3C;
+    transform: scale(1.02);
+}
