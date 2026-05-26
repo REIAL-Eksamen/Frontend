@@ -15,8 +15,6 @@
     flex-direction: column;
 }
 
-/* HEADER */
-
 .plans-header {
     margin-bottom: 1.5rem;
     flex-shrink: 0;
@@ -35,7 +33,6 @@
     font-size: 0.9rem;
 }
 
-/* FILTERS */
 
 .plan-filters {
     display: flex;
@@ -69,8 +66,6 @@
     color: white;
 }
 
-/* BIG SCROLL BOX */
-
 .plans-container {
     flex: 1;
     min-height: 0;
@@ -96,15 +91,12 @@
     border-radius: 10px;
 }
 
-/* GRID */
-
 .plans-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
     gap: 1.5rem;
 }
 
-/* CARD */
 
 .plan-card {
     background: rgba(255,255,255,0.06);
@@ -119,7 +111,6 @@
     background: rgba(255,255,255,0.1);
 }
 
-/* IMAGES */
 
 .plan-image {
     height: 220px;
@@ -151,7 +142,6 @@
     background-image: url('/images/baggrundsp3.jpg');
 }
 
-/* CONTENT */
 
 .plan-content {
     padding: 1.3rem;
@@ -196,7 +186,6 @@
     font-size: 0.74rem;
 }
 
-/* BUTTON */
 
 .plan-btn {
     width: 100%;
