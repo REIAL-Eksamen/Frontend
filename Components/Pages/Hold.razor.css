@@ -1,0 +1,117 @@
+.hold-container {
+    padding: 2rem 3rem;
+    background-color: #2d2d2d;
+    min-height: 100vh;
+    color: white;
+}
+
+.hold-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.hold-header h1 {
+    font-size: 2rem;
+    font-weight: 900;
+    color: white;
+    margin: 0;
+}
+
+.hold-sub {
+    color: #aaa;
+    margin: 0.3rem 0 0 0;
+    font-size: 0.9rem;
+}
+
+.btn-opret {
+    padding: 0.9rem 2rem;
+    border-radius: 30px;
+    background-color: #4CAF50;
+    color: white;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 0.2s;
+}
+
+.btn-opret:hover {
+    background-color: #388E3C;
+    color: white;
+    transform: scale(1.05);
+}
+
+.hold-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.hold-item {
+    background: #e8e8e8;
+    border-radius: 12px;
+    padding: 1.2rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #1a1a1a;
+    transition: transform 0.2s;
+    cursor: pointer;
+}
+
+.hold-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+.hold-info {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+}
+
+.hold-navn {
+    font-weight: 700;
+    font-size: 1rem;
+    min-width: 120px;
+}
+
+.hold-type {
+    color: #555;
+    font-size: 0.9rem;
+    min-width: 80px;
+}
+
+.hold-tid {
+    color: #555;
+    font-size: 0.9rem;
+    min-width: 150px;
+}
+
+.hold-instruktør {
+    color: #555;
+    font-size: 0.9rem;
+    min-width: 150px;
+}
+
+.hold-pladser {
+    color: #555;
+    font-size: 0.9rem;
+}
+
+.hold-status {
+    padding: 0.3rem 1rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.hold-status.aktiv {
+    background: #e8f5e9;
+    color: #2e7d32;
+}
+
+.hold-status.fuld {
+    background: #ffebee;
+    color: #c62828;
+}

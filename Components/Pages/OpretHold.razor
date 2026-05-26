@@ -1,0 +1,102 @@
+@page "/oprethold"
+
+<PageTitle>Opret Hold - FitLife</PageTitle>
+
+<div class="oprethold-container">
+    <div class="oprethold-header">
+        <h1>Opret Hold</h1>
+        <p class="oprethold-sub">Udfyld oplysningerne for det nye hold</p>
+    </div>
+
+    <div class="oprethold-form">
+        <div class="form-section">
+            <h3>Hold oplysninger</h3>
+
+            <div class="form-group">
+                <label>Holdnavn</label>
+                <input type="text" class="form-input" placeholder="f.eks. Pilates" />
+            </div>
+
+            <div class="form-group">
+                <label>Beskrivelse</label>
+                <textarea class="form-input form-textarea" placeholder="Beskriv holdet..."></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Holdtype</label>
+                <select class="form-input">
+                    <option>Vælg type</option>
+                    <option>Yoga</option>
+                    <option>Pilates</option>
+                    <option>Cardio</option>
+                    <option>Styrke</option>
+                    <option>Svømning</option>
+                    <option>Dans</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-section">
+            <h3>Tid og sted</h3>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Startdato og tid</label>
+                    <input type="datetime-local" class="form-input" />
+                </div>
+
+                <div class="form-group">
+                    <label>Slutdato og tid</label>
+                    <input type="datetime-local" class="form-input" />
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Center</label>
+                    <select class="form-input">
+                        <option>Vælg center</option>
+                        <option>Scandinavian Center, Århus C</option>
+                        <option>Viborgvej, Randers</option>
+                        <option>Forum, Horsens</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Lokale</label>
+                    <select class="form-input">
+                        <option>Vælg lokale</option>
+                        <option>Holdsal 1</option>
+                        <option>Holdsal 2</option>
+                        <option>Svømmehal</option>
+                        <option>Spinning</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-section">
+            <h3>Kapacitet</h3>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Max deltagere</label>
+                    <input type="number" class="form-input" placeholder="f.eks. 20" />
+                </div>
+
+                <div class="form-group">
+                    <label>Status</label>
+                    <select class="form-input">
+                        <option value="true">Aktiv</option>
+                        <option value="false">Inaktiv</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <a href="/hold" class="btn-annuller">ANNULLER</a>
+            <button class="btn-opret">OPRET HOLD</button>
+        </div>
+    </div>
+</div>
