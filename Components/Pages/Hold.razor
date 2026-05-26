@@ -1,3 +1,7 @@
+@using Frontend.Services
+@using Frontend.Models
+@inject ClassClientService ClassService
+
 @page "/hold"
 
 <PageTitle>Hold - FitLife</PageTitle>
@@ -12,35 +16,36 @@
     </div>
 
     <div class="hold-list">
-        <div class="hold-item">
-            <div class="hold-info">
-                <span class="hold-navn">Pilates</span>
-                <span class="hold-type">Yoga</span>
-                <span class="hold-tid">Man 08:00 - 09:00</span>
-                <span class="hold-instruktør">Mette Christensen</span>
-                <span class="hold-pladser">12/15 pladser</span>
-            </div>
-            <span class="hold-status aktiv">Aktiv</span>
-        </div>
-        <div class="hold-item">
-            <div class="hold-info">
-                <span class="hold-navn">Vand Aerobic</span>
-                <span class="hold-type">Svømning</span>
-                <span class="hold-tid">Tir 12:00 - 13:00</span>
-                <span class="hold-instruktør">Torsten Torbensen</span>
-                <span class="hold-pladser">20/20 pladser</span>
-            </div>
-            <span class="hold-status fuld">Fuld</span>
-        </div>
-        <div class="hold-item">
-            <div class="hold-info">
-                <span class="hold-navn">Stram op</span>
-                <span class="hold-type">Styrke</span>
-                <span class="hold-tid">Ons 17:00 - 18:00</span>
-                <span class="hold-instruktør">Dennis Knudsen</span>
-                <span class="hold-pladser">5/15 pladser</span>
-            </div>
-            <span class="hold-status aktiv">Aktiv</span>
-        </div>
+        
+        @if (_classes != null)
+        {
+            @foreach (ClassModel c in _classes)
+            {
+                <div class="hold-item">
+                    <div class="hold-info">
+                        <span class="hold-navn">@c.ClassName</span>
+                        <span class="hold-type">@c.ClassType</span>
+                        <span class="hold-beskrivelse">@c.ClassDescription</span>
+                        <span class="hold-starttid">@c.StartTime</span>
+                        <span class="hold-sluttid">@c.EndTime</span>
+                        <span class="hold-instruktør">@c.InstructorId</span>
+                        <span class="hold-center">@c.CenterId</span>
+                        <span class="hold-lokale">@c.Classroom?.ClassroomName</span>
+                        <span class="hold-status">@c.Status</span>
+                    </div>
+                </div>
+            }
+        }
     </div>
-</div>
+</div>   
+
+@code {
+
+    private List<ClassModel> _classes;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _classes = await ClassService.GetClasses();
+    }
+
+}

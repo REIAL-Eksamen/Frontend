@@ -12,12 +12,17 @@ builder.Services.AddSingleton<AuthHeaderHandler>();
 
 builder.Services.AddHttpClient<AuthClientService>(c =>
 {
-    c.BaseAddress = new Uri("http://localhost:8080/");
+    c.BaseAddress = new Uri("http://authservice:8080/");
+});
+
+builder.Services.AddHttpClient<ClassClientService>(c =>
+{
+    c.BaseAddress = new Uri("http://classservice:8080/");
 });
 
 builder.Services.AddHttpClient<UserClientService>(c =>
     {
-        c.BaseAddress = new Uri("http://localhost:5047/");
+        c.BaseAddress = new Uri("http://userservice:8080/");
     })
     .AddHttpMessageHandler<AuthHeaderHandler>();
 
