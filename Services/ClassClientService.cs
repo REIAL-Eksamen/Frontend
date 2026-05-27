@@ -17,4 +17,10 @@ public class ClassClientService
     {
         return await _http.GetFromJsonAsync<List<ClassModel>>("api/class");
     }
+    //Book et hold page
+    public async Task<List<ClassOverviewModel>> GetClassOverview()
+    {
+        var result = await _http.GetFromJsonAsync<List<ClassOverviewModel>>("api/Class/overview");
+        return result ?? new List<ClassOverviewModel>();
+    }
 }
