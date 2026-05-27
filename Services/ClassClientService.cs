@@ -23,4 +23,10 @@ public class ClassClientService
         if (!response.IsSuccessStatusCode) return null;
         return await response.Content.ReadFromJsonAsync<ClassModel>();
     }
+    //Book et hold page
+    public async Task<List<ClassOverviewModel>> GetClassOverview()
+    {
+        var result = await _http.GetFromJsonAsync<List<ClassOverviewModel>>("api/Class/overview");
+        return result ?? new List<ClassOverviewModel>();
+    }
 }

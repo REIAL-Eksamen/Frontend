@@ -1,4 +1,7 @@
 ﻿@page "/bookhold"
+@using Frontend.Models
+@using Frontend.Services
+@inject ClassClientService ClassClientService
 
 <PageTitle>Book et hold - FitLife</PageTitle>
 
@@ -25,55 +28,62 @@
         </div>
 
         <div class="class-list">
-            <div class="class-item">
-                <span>Århus C, Scandinavian</span>
-                <span>Pilates</span>
-                <span>Mette Christensen</span>
-                <span>7/5 10:30</span>
-                <button class="btn-tilmeld">TILMELD</button>
-            </div>
-            <div class="class-item">
-                <span>Randers, Viborgvej</span>
-                <span>Stram op</span>
-                <span>Dennis Knudsen</span>
-                <span>7/5 11:30</span>
-                <button class="btn-tilmeld">TILMELD</button>
-            </div>
-            <div class="class-item">
-                <span>Horsens, Forum</span>
-                <span>Vand aerobic</span>
-                <span>Ulla Wissendorf</span>
-                <span>7/5 12:00</span>
-                <button class="btn-venteliste">VENTELISTE</button>
-            </div>
-            <div class="class-item">
-                <span>Skanderborg, Ringvejen</span>
-                <span>Boksning</span>
-                <span>Kim Jensen</span>
-                <span>7/5 12:30</span>
-                <button class="btn-tilmeld">TILMELD</button>
-            </div>
-            <div class="class-item">
-                <span>Skanderborg, Ringvejen</span>
-                <span>Yin Yoga</span>
-                <span>Bettina Jensen</span>
-                <span>7/5 12:30</span>
-                <button class="btn-tilmeld">TILMELD</button>
-            </div>
-            <div class="class-item">
-                <span>Århus C, Spanien</span>
-                <span>Yang Yoga</span>
-                <span>Destiny Fischer</span>
-                <span>7/5 13:30</span>
-                <button class="btn-venteliste">VENTELISTE</button>
-            </div>
-            <div class="class-item">
-                <span>Århus C, Spanien</span>
-                <span>Introhold</span>
-                <span>Torsten Torbensen</span>
-                <span>7/5 14:00</span>
-                <button class="btn-tilmeld">TILMELD</button>
-            </div>
+            @if (isLoading)
+            {
+                <p>Indlæser hold...</p>
+            }
+            else if (errorMessage is not null)
+            {
+                <p>@errorMessage</p>
+            }
+            else if (classes.Count == 0)
+            {
+                <p>Ingen hold fundet.</p>
+            }
+            else
+            {
+                @foreach (var item in classes)
+                {
+                    <div class="class-item">
+                        <span>@item.CenterName</span>
+                        <span>@item.ClassName</span>
+                        <span>@item.InstructorName</span>
+                        <span>@(item.StartTime?.ToString("d/M HH:mm") ?? "Tid mangler")</span>
+
+                        @if (item.Status == "Scheduled" || item.Status == "Active")
+                        {
+                            <button class="btn-tilmeld">TILMELD</button>
+                        }
+                        else
+                        {
+                            <button class="btn-venteliste">VENTELISTE</button>
+                        }
+                    </div>
+                }
+            }
         </div>
     </div>
 </div>
+
+@code {
+    private List<ClassOverviewModel> classes = new();
+    private bool isLoading = true;
+    private string? errorMessage;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            classes = await ClassClientService.GetClassOverview();
+        }
+        catch (Exception ex)
+        {
+            errorMessage = "Kunne ikke hente hold fra ClassService.";
+            Console.WriteLine(ex.Message);
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+}
