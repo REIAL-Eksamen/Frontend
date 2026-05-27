@@ -76,7 +76,7 @@
                     <option value="">Vælg instruktør</option>
                     @foreach (var i in instructors)
                     {
-                        <option value="@i.AdminId">@i.FirstName @i.LastName</option>
+                        <option value="@i.Id">@i.FirstName @i.LastName</option>
                     }
                 </select>
             </div>
@@ -176,7 +176,7 @@
 
     public class InstructorDto
     {
-        public string AdminId { get; set; } = "";
+        public string? Id { get; set; }
         public string FirstName { get; set; } = "";
         public string LastName { get; set; } = "";
     }
