@@ -1,18 +1,19 @@
 .login-container {
-    height: 100vh;
-    overflow: hidden;
-    background-image: url('/images/baggrundsp2.jpg');
+    min-height: 100vh;
+    overflow-y: auto;
+    background-image: url('Images/baggrundsp2.jpg');
     background-size: cover;
     background-position: center;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
+    padding: 2rem 1rem;
 }
 
 .login-box {
     background: #e8e8e8;
     border-radius: 16px;
-    padding: 3rem 2.5rem;
+    padding: 2rem 2.5rem;
     width: 100%;
     max-width: 420px;
     box-shadow: 0 8px 32px rgba(0,0,0,0.4);
