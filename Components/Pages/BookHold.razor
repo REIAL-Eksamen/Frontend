@@ -47,17 +47,11 @@
                     <div class="class-item">
                         <span>@item.CenterName</span>
                         <span>@item.ClassName</span>
+                        <span>@item.ClassroomName</span>
                         <span>@item.InstructorName</span>
                         <span>@(item.StartTime?.ToString("d/M HH:mm") ?? "Tid mangler")</span>
-
-                        @if (item.Status == "Scheduled" || item.Status == "Active")
-                        {
-                            <button class="btn-tilmeld">TILMELD</button>
-                        }
-                        else
-                        {
-                            <button class="btn-venteliste">VENTELISTE</button>
-                        }
+                        
+                        <button class="btn-tilmeld">TILMELD</button>
                     </div>
                 }
             }
