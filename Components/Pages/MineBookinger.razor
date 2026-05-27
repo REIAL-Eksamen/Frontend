@@ -1,4 +1,10 @@
 @page "/minebookinger"
+@using Frontend.Models
+@using Frontend.Services
+@inject UserClientService UserService
+@inject BookingClientService BookingService
+@inject ClassClientService ClassService
+@rendermode InteractiveServer
 
 <PageTitle>Mine Bookinger - FitLife</PageTitle>
 
@@ -7,30 +13,68 @@
 </div>
 
 <div class="booking-list">
-    <div class="booking-item">
-        <div class="booking-item-top">
-            <span>Århus C, Scandinavian</span>
-            <span><strong>Pilates</strong></span>
-            <span>Mette Christensen</span>
-            <span>7/5 10:30</span>
-            <button class="btn-afmeld">AFMELD</button>
-        </div>
-        <div class="booking-item-bottom">
-            <span>Holdsal 2</span>
-            <span>Varighed: 55 min</span>
-        </div>
-    </div>
-    <div class="booking-item">
-        <div class="booking-item-top">
-            <span>Århus C, Scandinavian</span>
-            <span><strong>Yin Yoga</strong></span>
-            <span>Mette Christensen</span>
-            <span>7/5 11:30</span>
-            <button class="btn-afmeld">AFMELD</button>
-        </div>
-        <div class="booking-item-bottom">
-            <span>Holdsal 2</span>
-            <span>Varighed: 55 min</span>
-        </div>
-    </div>
+    @if (bookinger == null)
+    {
+        <p style="color:white; padding: 1rem">Indlæser...</p>
+    }
+    else if (!bookinger.Any())
+    {
+        <p style="color:white; padding: 1rem">Du har ingen bookinger endnu.</p>
+    }
+    else
+    {
+        @foreach (var booking in bookinger)
+        {
+            var classInfo = classes.GetValueOrDefault(booking.ClassSessionId);
+            <div class="booking-item">
+                <div class="booking-item-top">
+                    <span><strong>@(classInfo?.ClassName ?? "Ukendt hold")</strong></span>
+                    <span>@(classInfo?.ClassType ?? "")</span>
+                    <span>@booking.BookedAt.ToLocalTime().ToString("dd/MM HH:mm")</span>
+                    <span class="@(booking.Status == "Confirmed" ? "status-confirmed" : "status-cancelled")">
+                        @booking.Status
+                    </span>
+                    @if (booking.Status == "Confirmed")
+                    {
+                        <button class="btn-afmeld" @onclick="() => AfmeldBooking(booking.ClassBookingId!)">AFMELD</button>
+                    }
+                </div>
+                <div class="booking-item-bottom">
+                    <span>@(classInfo?.Classroom?.ClassroomName ?? "")</span>
+                    <span>@(classInfo?.ClassDescription ?? "")</span>
+                </div>
+            </div>
+        }
+    }
 </div>
+
+@code {
+    private List<BookingModel>? bookinger;
+    private Dictionary<string, ClassModel> classes = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var user = await UserService.GetCurrentUser();
+        if (user == null) return;
+
+        bookinger = await BookingService.GetBookingsByUserId(user.Id!);
+
+        foreach (var booking in bookinger)
+        {
+            if (!classes.ContainsKey(booking.ClassSessionId))
+            {
+                var classInfo = await ClassService.GetClassById(booking.ClassSessionId);
+                if (classInfo != null)
+                    classes[booking.ClassSessionId] = classInfo;
+            }
+        }
+    }
+
+    private async Task AfmeldBooking(string bookingId)
+    {
+        await BookingService.CancelBooking(bookingId);
+        var user = await UserService.GetCurrentUser();
+        if (user != null)
+            bookinger = await BookingService.GetBookingsByUserId(user.Id!);
+    }
+}

@@ -20,6 +20,11 @@ builder.Services.AddHttpClient<ClassClientService>(c =>
     c.BaseAddress = new Uri("http://classservice:8080/");
 });
 
+builder.Services.AddHttpClient<BookingClientService>(c =>
+{
+    c.BaseAddress = new Uri("http://bookingservice:8080/");
+});
+
 builder.Services.AddHttpClient<UserClientService>(c =>
     {
         c.BaseAddress = new Uri("http://userservice:8080/");
