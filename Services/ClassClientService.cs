@@ -29,4 +29,15 @@ public class ClassClientService
         var result = await _http.GetFromJsonAsync<List<ClassOverviewModel>>("api/Class/overview");
         return result ?? new List<ClassOverviewModel>();
     }
+    
+    public async Task AddMember(string classId)
+    {
+        var response = await _http.PostAsync($"api/class/{classId}/members", null);
+
+        if (!response.IsSuccessStatusCode)
+        {
+            var error = await response.Content.ReadAsStringAsync();
+            throw new Exception(error);
+        }
+    }
 }

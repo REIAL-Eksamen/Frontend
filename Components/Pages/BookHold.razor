@@ -2,6 +2,7 @@
 @using Frontend.Models
 @using Frontend.Services
 @inject ClassClientService ClassClientService
+@rendermode InteractiveServer
 
 <PageTitle>Book et hold - FitLife</PageTitle>
 
@@ -51,7 +52,9 @@
                         <span>@item.InstructorName</span>
                         <span>@(item.StartTime?.ToString("d/M HH:mm") ?? "Tid mangler")</span>
                         
-                        <button class="btn-tilmeld">TILMELD</button>
+                        <button class="btn-tilmeld" @onclick="() => JoinClass(item.Id)">
+                            TILMELD
+                        </button>
                     </div>
                 }
             }
@@ -79,5 +82,12 @@
         {
             isLoading = false;
         }
+    }
+    
+    private async Task JoinClass(string classId)
+    {
+        Console.WriteLine($"JOIN CLICK: {classId}");
+
+        await ClassClientService.AddMember(classId);
     }
 }

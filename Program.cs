@@ -8,7 +8,7 @@ builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents(); ;
 
 builder.Services.AddSingleton<TokenProvider>();
-builder.Services.AddSingleton<AuthHeaderHandler>();
+builder.Services.AddTransient<AuthHeaderHandler>();
 
 builder.Services.AddHttpClient<AuthClientService>(c =>
 {
@@ -18,12 +18,14 @@ builder.Services.AddHttpClient<AuthClientService>(c =>
 builder.Services.AddHttpClient<ClassClientService>(c =>
 {
     c.BaseAddress = new Uri("http://classservice:8080/");
-});
+})
+    .AddHttpMessageHandler<AuthHeaderHandler>();;
 
 builder.Services.AddHttpClient<BookingClientService>(c =>
 {
     c.BaseAddress = new Uri("http://bookingservice:8080/");
-});
+}) 
+    .AddHttpMessageHandler<AuthHeaderHandler>();;
 
 builder.Services.AddHttpClient<UserClientService>(c =>
     {
