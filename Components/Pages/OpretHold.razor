@@ -1,4 +1,5 @@
 @page "/oprethold"
+@inject HttpClient Http
 
 <PageTitle>Opret Hold - FitLife</PageTitle>
 
@@ -8,95 +9,185 @@
         <p class="oprethold-sub">Udfyld oplysningerne for det nye hold</p>
     </div>
 
+    @if (successMessage is not null)
+    {
+        <div class="alert-success">@successMessage</div>
+    }
+    @if (errorMessage is not null)
+    {
+        <div class="alert-error">@errorMessage</div>
+    }
+
     <div class="oprethold-form">
         <div class="form-section">
             <h3>Hold oplysninger</h3>
-
             <div class="form-group">
-                <label>Holdnavn</label>
-                <input type="text" class="form-input" placeholder="f.eks. Pilates" />
-            </div>
-
-            <div class="form-group">
-                <label>Beskrivelse</label>
-                <textarea class="form-input form-textarea" placeholder="Beskriv holdet..."></textarea>
-            </div>
-
-            <div class="form-group">
-                <label>Holdtype</label>
-                <select class="form-input">
-                    <option>Vælg type</option>
-                    <option>Yoga</option>
-                    <option>Pilates</option>
-                    <option>Cardio</option>
-                    <option>Styrke</option>
-                    <option>Svømning</option>
-                    <option>Dans</option>
+                <label>Holdskabelon</label>
+                <select class="form-input" @bind="selectedTemplateId">
+                    <option value="">Vælg skabelon</option>
+                    @foreach (var t in templates)
+                    {
+                        <option value="@t.Id">@t.ClassName (@t.ClassType)</option>
+                    }
                 </select>
             </div>
         </div>
 
         <div class="form-section">
             <h3>Tid og sted</h3>
-
             <div class="form-row">
                 <div class="form-group">
                     <label>Startdato og tid</label>
-                    <input type="datetime-local" class="form-input" />
+                    <input type="datetime-local" class="form-input" @bind="startTime" />
                 </div>
-
                 <div class="form-group">
                     <label>Slutdato og tid</label>
-                    <input type="datetime-local" class="form-input" />
+                    <input type="datetime-local" class="form-input" @bind="endTime" />
                 </div>
             </div>
 
             <div class="form-row">
                 <div class="form-group">
                     <label>Center</label>
-                    <select class="form-input">
-                        <option>Vælg center</option>
-                        <option>Scandinavian Center, Århus C</option>
-                        <option>Viborgvej, Randers</option>
-                        <option>Forum, Horsens</option>
+                    <select class="form-input" value="@selectedCenterId" @onchange="OnCenterChanged">
+                        <option value="">Vælg center</option>
+                        @foreach (var c in centers)
+                        {
+                            <option value="@c.Id">@c.Name</option>
+                        }
                     </select>
                 </div>
 
                 <div class="form-group">
                     <label>Lokale</label>
-                    <select class="form-input">
-                        <option>Vælg lokale</option>
-                        <option>Holdsal 1</option>
-                        <option>Holdsal 2</option>
-                        <option>Svømmehal</option>
-                        <option>Spinning</option>
+                    <select class="form-input" @bind="selectedClassroomId">
+                        <option value="">Vælg lokale</option>
+                        @foreach (var r in availableClassrooms)
+                        {
+                            <option value="@r.ClassroomId">@r.Name (max @r.Capacity)</option>
+                        }
                     </select>
                 </div>
             </div>
-        </div>
 
-        <div class="form-section">
-            <h3>Kapacitet</h3>
-
-            <div class="form-row">
-                <div class="form-group">
-                    <label>Max deltagere</label>
-                    <input type="number" class="form-input" placeholder="f.eks. 20" />
-                </div>
-
-                <div class="form-group">
-                    <label>Status</label>
-                    <select class="form-input">
-                        <option value="true">Aktiv</option>
-                        <option value="false">Inaktiv</option>
-                    </select>
-                </div>
+            <div class="form-group">
+                <label>Instruktør</label>
+                <select class="form-input" @bind="selectedInstructorId">
+                    <option value="">Vælg instruktør</option>
+                    @foreach (var i in instructors)
+                    {
+                        <option value="@i.Id">@i.FirstName @i.LastName</option>
+                    }
+                </select>
             </div>
         </div>
 
         <div class="form-actions">
             <a href="/hold" class="btn-annuller">ANNULLER</a>
-            <button class="btn-opret">OPRET HOLD</button>
+            <button class="btn-opret" @onclick="HandleOpretHold">OPRET HOLD</button>
         </div>
     </div>
 </div>
+
+@code {
+    private List<ClassTemplateDto> templates = new();
+    private List<CenterDto> centers = new();
+    private List<ClassroomDto> availableClassrooms = new();
+    private List<InstructorDto> instructors = new();
+
+    private string selectedTemplateId = "";
+    private string selectedCenterId = "";
+    private string selectedClassroomId = "";
+    private string selectedInstructorId = "";
+    private DateTime? startTime;
+    private DateTime? endTime;
+    private string? successMessage;
+    private string? errorMessage;
+
+    protected override async Task OnInitializedAsync()
+    {
+        templates = await Http.GetFromJsonAsync<List<ClassTemplateDto>>("http://classservice:8080/api/classtemplate") ?? new();
+        centers = await Http.GetFromJsonAsync<List<CenterDto>>("http://classservice:8080/api/centers/all") ?? new();
+    }
+
+    private async Task OnCenterChanged(ChangeEventArgs e)
+    {
+        selectedCenterId = e.Value?.ToString() ?? "";
+        selectedClassroomId = "";
+        selectedInstructorId = "";
+
+        var center = centers.FirstOrDefault(c => c.Id == selectedCenterId);
+        availableClassrooms = center?.Classrooms ?? new();
+        instructors = string.IsNullOrEmpty(selectedCenterId) ? new() :
+            await Http.GetFromJsonAsync<List<InstructorDto>>($"http://classservice:8080/api/centers/{selectedCenterId}/instructors") ?? new();
+    }
+
+    private async Task HandleOpretHold(MouseEventArgs e)
+    {
+        errorMessage = null;
+        successMessage = null;
+
+        if (string.IsNullOrEmpty(selectedTemplateId) || string.IsNullOrEmpty(selectedCenterId) ||
+            string.IsNullOrEmpty(selectedClassroomId) || string.IsNullOrEmpty(selectedInstructorId) ||
+            startTime is null || endTime is null)
+        {
+            errorMessage = "Udfyld venligst alle felter.";
+            return;
+        }
+
+        var dto = new CreateClassDto
+        {
+            TemplateId = selectedTemplateId,
+            InstructorId = selectedInstructorId,
+            CenterId = selectedCenterId,
+            ClassroomId = selectedClassroomId,
+            StartTime = startTime,
+            EndTime = endTime
+        };
+
+        var response = await Http.PostAsJsonAsync("http://classservice:8080/api/class", dto);
+
+        if (response.IsSuccessStatusCode)
+            successMessage = "Holdet er oprettet! Det vil nu vises under Book Hold.";
+        else
+            errorMessage = $"Fejl: {await response.Content.ReadAsStringAsync()}";
+    }
+
+    public class ClassTemplateDto
+    {
+        public string? Id { get; set; }
+        public string ClassName { get; set; } = "";
+        public string ClassType { get; set; } = "";
+    }
+
+    public class CenterDto
+    {
+        public string? Id { get; set; }
+        public string Name { get; set; } = "";
+        public List<ClassroomDto> Classrooms { get; set; } = new();
+    }
+
+    public class ClassroomDto
+    {
+        public string ClassroomId { get; set; } = "";
+        public string Name { get; set; } = "";
+        public int Capacity { get; set; }
+    }
+
+    public class InstructorDto
+    {
+        public string? Id { get; set; }
+        public string FirstName { get; set; } = "";
+        public string LastName { get; set; } = "";
+    }
+
+    public class CreateClassDto
+    {
+        public string TemplateId { get; set; } = "";
+        public string InstructorId { get; set; } = "";
+        public string CenterId { get; set; } = "";
+        public string ClassroomId { get; set; } = "";
+        public DateTime? StartTime { get; set; }
+        public DateTime? EndTime { get; set; }
+    }
+}
