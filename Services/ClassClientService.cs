@@ -11,10 +11,16 @@ public class ClassClientService
     {
         _http = http;
     }
-    
-    // Liste af alle hold hentes
+
     public async Task<List<ClassModel>> GetClasses()
     {
-        return await _http.GetFromJsonAsync<List<ClassModel>>("api/class");
+        return await _http.GetFromJsonAsync<List<ClassModel>>("api/class") ?? new List<ClassModel>();
+    }
+
+    public async Task<ClassModel?> GetClassById(string classId)
+    {
+        var response = await _http.GetAsync($"api/class/{classId}");
+        if (!response.IsSuccessStatusCode) return null;
+        return await response.Content.ReadFromJsonAsync<ClassModel>();
     }
 }
