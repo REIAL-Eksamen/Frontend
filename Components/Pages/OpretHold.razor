@@ -64,7 +64,7 @@
                         <option value="">Vælg lokale</option>
                         @foreach (var r in availableClassrooms)
                         {
-                            <option value="@r.ClassroomId">@r.ClassroomName (max @r.Capacity)</option>
+                            <option value="@r.ClassroomId">@r.Name (max @r.Capacity)</option>
                         }
                     </select>
                 </div>
@@ -76,7 +76,7 @@
                     <option value="">Vælg instruktør</option>
                     @foreach (var i in instructors)
                     {
-                        <option value="@i.Id">@i.FirstName @i.LastName</option>
+                        <option value="@i.AdminId">@i.FirstName @i.LastName</option>
                     }
                 </select>
             </div>
@@ -170,13 +170,13 @@
     public class ClassroomDto
     {
         public string ClassroomId { get; set; } = "";
-        public string ClassroomName { get; set; } = "";
+        public string Name { get; set; } = "";
         public int Capacity { get; set; }
     }
 
     public class InstructorDto
     {
-        public string? Id { get; set; }
+        public string AdminId { get; set; } = "";
         public string FirstName { get; set; } = "";
         public string LastName { get; set; } = "";
     }
