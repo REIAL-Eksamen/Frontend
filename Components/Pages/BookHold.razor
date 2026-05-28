@@ -3,32 +3,54 @@
 @using Frontend.Services
 @inject ClassClientService ClassClientService
 @rendermode InteractiveServer
-@inject HttpClient Http
-@using System.Net.Http.Json
+@inject BookingClientService BookingService
+@inject UserClientService UserService
 
 <PageTitle>Holdbooking - FitLife</PageTitle>
 
-<h1>BOOK ET HOLD</h1>
-<p>DU KAN SE ALLE HOLD HERUNDER - OP TIL 14 DAGE FREM.</p>
+<div class="booking-page">
+    <div class="booking-overlay">
+        <h1>BOOK ET HOLD</h1>
+        <p>DU KAN SE ALLE HOLD HERUNDER - OP TIL 14 DAGE FREM.</p>
 
-<div class="filters">
-    <select class="filter-select">
-        <option>Vælg Center ▼</option>
-    </select>
-    <select class="filter-select">
-        <option>Vælg Hold ▼</option>
-    </select>
-    <select class="filter-select">
-        <option>Vælg Instruktør ▼</option>
-    </select>
-    <select class="filter-select">
-        <option>Vælg Dato ▼</option>
-    </select>
-    <button class="btn-search">SØG</button>
-    <button class="btn-reset">RYD FILTRE</button>
-</div>
- 
-<div class="class-list">
+        <div class="filters">
+            <select class="filter-select" @bind="selectedCenter">
+                <option value="">Vælg Center</option>
+                @foreach (var center in centers)
+                {
+                    <option value="@center">@center</option>
+                }
+            </select>
+
+            <select class="filter-select" @bind="selectedClass">
+                <option value="">Vælg Hold</option>
+                @foreach (var className in classNames)
+                {
+                    <option value="@className">@className</option>
+                }
+            </select>
+
+            <select class="filter-select" @bind="selectedInstructor">
+                <option value="">Vælg Instruktør</option>
+                @foreach (var instructor in instructors)
+                {
+                    <option value="@instructor">@instructor</option>
+                }
+            </select>
+
+            <select class="filter-select" @bind="selectedDate">
+                <option value="">Vælg Dato</option>
+                @foreach (var date in dates)
+                {
+                    <option value="@date">@date</option>
+                }
+            </select>
+
+            <button class="btn-search" @onclick="ApplyFilters">SØG</button>
+            <button class="btn-reset" @onclick="ResetFilters">RYD FILTRE</button>
+        </div>
+
+        <div class="class-list">
             @if (isLoading)
             {
                 <p>Indlæser hold...</p>
@@ -42,12 +64,12 @@
                 @foreach (var item in classes)
                 {
                     <div class="class-item">
+                        <span>@item.CenterName</span>
                         <span>@item.ClassName</span>
-                        <span>@item.ClassDescription</span>
                         <span>@item.ClassType</span>
-                        <span>@item.InstructorId</span>
+                        <span>@item.InstructorName</span>
                         <span>@(item.StartTime?.ToString("d/M HH:mm") ?? "Tid mangler")</span>
-                        
+
                         <button class="btn-tilmeld" @onclick="() => JoinClass(item.Id)">
                             TILMELD
                         </button>
@@ -55,31 +77,99 @@
                 }
             }
         </div>
-
+    </div>
+</div>
 
 @code {
+    private List<ClassOverviewModel> allClasses = new();
+    private List<ClassOverviewModel> classes = new();
 
-    private List<ClassModel> classes = new();
+    private List<string> centers = new();
+    private List<string> classNames = new();
+    private List<string> instructors = new();
+    private List<string> dates = new();
+
+    private string selectedCenter = "";
+    private string selectedClass = "";
+    private string selectedInstructor = "";
+    private string selectedDate = "";
+
     private bool isLoading = true;
-    
+
     protected override async Task OnInitializedAsync()
     {
         isLoading = true;
 
         try
         {
-            classes = await Http.GetFromJsonAsync<List<ClassModel>>("http://classservice:8080/api/class") ?? new();
+            allClasses = await ClassClientService.GetClassOverview();
+            classes = allClasses;
+
+            centers = allClasses
+                .Select(c => c.CenterName)
+                .Where(c => !string.IsNullOrWhiteSpace(c))
+                .Distinct()
+                .OrderBy(c => c)
+                .ToList();
+
+            classNames = allClasses
+                .Select(c => c.ClassName)
+                .Where(c => !string.IsNullOrWhiteSpace(c))
+                .Distinct()
+                .OrderBy(c => c)
+                .ToList();
+
+            instructors = allClasses
+                .Select(c => c.InstructorName)
+                .Where(i => !string.IsNullOrWhiteSpace(i))
+                .Distinct()
+                .OrderBy(i => i)
+                .ToList();
+
+            dates = allClasses
+                .Where(c => c.StartTime is not null)
+                .Select(c => c.StartTime!.Value.ToString("d/M"))
+                .Distinct()
+                .OrderBy(d => d)
+                .ToList();
         }
         finally
         {
             isLoading = false;
         }
     }
-    
+
+    private void ApplyFilters()
+    {
+        classes = allClasses
+            .Where(c => string.IsNullOrWhiteSpace(selectedCenter) || c.CenterName == selectedCenter)
+            .Where(c => string.IsNullOrWhiteSpace(selectedClass) || c.ClassName == selectedClass)
+            .Where(c => string.IsNullOrWhiteSpace(selectedInstructor) || c.InstructorName == selectedInstructor)
+            .Where(c => string.IsNullOrWhiteSpace(selectedDate) || c.StartTime?.ToString("d/M") == selectedDate)
+            .ToList();
+    }
+
+    private void ResetFilters()
+    {
+        selectedCenter = "";
+        selectedClass = "";
+        selectedInstructor = "";
+        selectedDate = "";
+        classes = allClasses;
+    }
+
     private async Task JoinClass(string classId)
     {
-        Console.WriteLine($"JOIN CLICK: {classId}");
+        var user = await UserService.GetCurrentUser();
 
-        await ClassClientService.AddMember(classId);
+        if (user?.Id is null)
+        {
+            Console.WriteLine("User is not logged in.");
+            return;
+        }
+
+        var success = await BookingService.CreateBooking(user.Id, classId);
+
+        Console.WriteLine($"Booking success: {success}");
     }
 }
