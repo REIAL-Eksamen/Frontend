@@ -42,6 +42,15 @@
             <label>phoneNumber</label>
             <input type="text" placeholder="Telefon" class="form-input" @bind="phoneNumber"/>
         </div>
+
+        <div class="form-group">
+            <label>Medlemskab</label>
+            <select class="form-input" @bind="membership">
+                <option value="Standard">Standard</option>
+                <option value="Stundent">Studerende</option>
+                <option value="Premium">Premium</option>
+            </select>
+        </div>
         
         <button class="btn-login" @onclick="RegisterUser">Opret medlemskab</button>
         
@@ -51,14 +60,15 @@
         }
     </div>
 </div>
+
 @code {
-    
     private string email;
     private string password;
     private string firstName;
     private string lastName;
     private string phoneNumber;
     private string error;
+    private MembershipType membership = MembershipType.Standard;
 
     private async Task RegisterUser()
     {
@@ -66,7 +76,7 @@
         
         error = null;
         
-        var success = await AuthService.Register(email, password, firstName, lastName, phoneNumber, MembershipType.Standard, MembershipStatus.Active);
+        var success = await AuthService.Register(email, password, firstName, lastName, phoneNumber, membership, MembershipStatus.Active);
         
         Console.WriteLine($"SUCCESS: {success}");
 
