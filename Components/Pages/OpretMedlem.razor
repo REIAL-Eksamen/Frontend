@@ -72,7 +72,7 @@
 
     private MembershipType GetMembership() => membershipString switch
     {
-        "0" => MembershipType.Stundent,
+        "0" => MembershipType.Student,
         "2" => MembershipType.Premium,
         _ => MembershipType.Standard
     };

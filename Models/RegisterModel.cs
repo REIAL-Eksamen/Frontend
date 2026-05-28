@@ -14,7 +14,7 @@ public class RegisterModel
 
 public enum MembershipType
 {
-    Stundent,
+    Student,
     Standard,
     Premium
 }
