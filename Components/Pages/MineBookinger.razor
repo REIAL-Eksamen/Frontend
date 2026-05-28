@@ -29,19 +29,17 @@
             <div class="booking-item">
                 <div class="booking-item-top">
                     <span><strong>@(classInfo?.ClassName ?? "Ukendt hold")</strong></span>
-                    <span>@(classInfo?.ClassType ?? "")</span>
-                    <span>@booking.BookedAt.ToLocalTime().ToString("dd/MM HH:mm")</span>
-                    <span class="@(booking.Status == "Confirmed" ? "status-confirmed" : "status-cancelled")">
+                    <span>@(classInfo?.CenterName ?? "")</span>
+                    <span>@(classInfo?.ClassroomName ?? "")</span>
+                    <span>@(classInfo?.InstructorName ?? "")</span>
+                    <span>@(classInfo?.StartTime?.ToLocalTime().ToString("dd/MM HH:mm") ?? "")</span>
+                    <span class="@(booking.Status == BookingStatus.Confirmed ? "status-confirmed" : "status-cancelled")">
                         @booking.Status
                     </span>
-                    @if (booking.Status == "Confirmed")
+                    @if (booking.Status == BookingStatus.Confirmed)
                     {
                         <button class="btn-afmeld" @onclick="() => AfmeldBooking(booking.ClassBookingId!)">AFMELD</button>
                     }
-                </div>
-                <div class="booking-item-bottom">
-                    <span>@(classInfo?.Classroom?.ClassroomName ?? "")</span>
-                    <span>@(classInfo?.ClassDescription ?? "")</span>
                 </div>
             </div>
         }
@@ -50,24 +48,17 @@
 
 @code {
     private List<BookingModel>? bookinger;
-    private Dictionary<string, ClassModel> classes = new();
+    private Dictionary<string, ClassOverviewModel> classes = new();
 
     protected override async Task OnInitializedAsync()
     {
         var user = await UserService.GetCurrentUser();
         if (user == null) return;
 
-        bookinger = await BookingService.GetBookingsByUserId(user.Id!);
+        var allClasses = await ClassService.GetClassOverview();
+        classes = allClasses.ToDictionary(c => c.Id);
 
-        foreach (var booking in bookinger)
-        {
-            if (!classes.ContainsKey(booking.ClassSessionId))
-            {
-                var classInfo = await ClassService.GetClassById(booking.ClassSessionId);
-                if (classInfo != null)
-                    classes[booking.ClassSessionId] = classInfo;
-            }
-        }
+        bookinger = await BookingService.GetBookingsByUserId(user.Id!);
     }
 
     private async Task AfmeldBooking(string bookingId)

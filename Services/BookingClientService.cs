@@ -1,4 +1,6 @@
 using System.Net.Http.Json;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using Frontend.Models;
 
 namespace Frontend.Services;
@@ -14,7 +16,13 @@ public class BookingClientService
 
     public async Task<List<BookingModel>> GetBookingsByUserId(string userId)
     {
-        return await _http.GetFromJsonAsync<List<BookingModel>>($"api/bookings/user/{userId}") ?? new List<BookingModel>();
+        var options = new JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = true,
+            Converters = { new JsonStringEnumConverter() }
+        };
+
+        return await _http.GetFromJsonAsync<List<BookingModel>>($"api/bookings/user/{userId}", options) ?? new List<BookingModel>();
     }
 
     public async Task<bool> CancelBooking(string bookingId)

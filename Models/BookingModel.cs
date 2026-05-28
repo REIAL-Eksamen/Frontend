@@ -1,5 +1,14 @@
+using System.Text.Json.Serialization;
+
 namespace Frontend.Models;
 
+public enum BookingStatus
+{
+    Confirmed,
+    Cancelled,
+    NoShow,
+    WaitListed
+}
 public class BookingModel
 {
     public string? ClassBookingId { get; set; }
@@ -7,5 +16,7 @@ public class BookingModel
     public string ClassSessionId { get; set; } = "";
     public DateTime BookedAt { get; set; }
     public DateTime? CancelledAt { get; set; }
-    public string Status { get; set; } = "";
+    
+    [JsonConverter(typeof(JsonStringEnumConverter))]
+    public BookingStatus Status { get; set; }
 }
