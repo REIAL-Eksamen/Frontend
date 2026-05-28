@@ -23,11 +23,21 @@
     }
     else
     {
-        @foreach (var booking in bookinger)
-        {
-            var classInfo = classes.GetValueOrDefault(booking.ClassSessionId);
-            <div class="booking-item">
-                <div class="booking-item-top">
+        <div class="booking-table">
+            <div class="booking-header-row">
+                <span>Hold</span>
+                <span>Center</span>
+                <span>Lokale</span>
+                <span>Instruktør</span>
+                <span>Starttid</span>
+                <span>Status</span>
+                <span></span>
+            </div>
+
+            @foreach (var booking in bookinger)
+            {
+                var classInfo = classes.GetValueOrDefault(booking.ClassSessionId);
+                <div class="booking-item">
                     <span><strong>@(classInfo?.ClassName ?? "Ukendt hold")</strong></span>
                     <span>@(classInfo?.CenterName ?? "")</span>
                     <span>@(classInfo?.ClassroomName ?? "")</span>
@@ -36,13 +46,15 @@
                     <span class="@(booking.Status == BookingStatus.Confirmed ? "status-confirmed" : "status-cancelled")">
                         @booking.Status
                     </span>
-                    @if (booking.Status == BookingStatus.Confirmed)
-                    {
-                        <button class="btn-afmeld" @onclick="() => AfmeldBooking(booking.ClassBookingId!)">AFMELD</button>
-                    }
+                    <span>
+                        @if (booking.Status == BookingStatus.Confirmed)
+                        {
+                            <button class="btn-afmeld" @onclick="() => AfmeldBooking(booking.ClassBookingId!)">AFMELD</button>
+                        }
+                    </span>
                 </div>
-            </div>
-        }
+            }
+        </div>
     }
 </div>
 

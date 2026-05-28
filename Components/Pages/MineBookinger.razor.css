@@ -14,7 +14,7 @@
 .booking-list {
     padding: 1rem 2rem;
     background-color: #2d2d2d;
-    height: calc(100vh - 72px);
+    min-height: calc(100vh - 72px);
     overflow-y: auto;
     scrollbar-width: thin;
     scrollbar-color: #4CAF50 #2d2d2d;
@@ -33,29 +33,51 @@
     border-radius: 10px;
 }
 
+.booking-table {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.booking-header-row,
+.booking-item {
+    display: grid;
+    grid-template-columns: 2fr 1.5fr 1.5fr 1.5fr 1fr 1fr 120px;
+    align-items: center;
+    padding: 0.75rem 1.2rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+}
+
+.booking-header-row {
+    background: #1a1a1a;
+    color: #aaa;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    border-radius: 6px;
+    margin-bottom: 0.25rem;
+}
+
 .booking-item {
     background: #e8e8e8;
-    margin-bottom: 0.8rem;
-    border-radius: 8px;
     box-shadow: 0 2px 6px rgba(0,0,0,0.3);
     color: #1a1a1a;
 }
 
-.booking-item-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0.8rem 1.2rem;
-    border-bottom: 1px solid #ccc;
-    font-size: 0.9rem;
+.booking-item:hover {
+    background: #f0f0f0;
 }
 
-.booking-item-bottom {
-    display: flex;
-    gap: 2rem;
-    padding: 0.5rem 1.2rem;
-    color: #555;
-    font-size: 0.82rem;
+.status-confirmed {
+    color: #2e7d32;
+    font-weight: 600;
+}
+
+.status-cancelled {
+    color: #c62828;
+    font-weight: 600;
 }
 
 .btn-afmeld {
@@ -68,6 +90,7 @@
     cursor: pointer;
     transition: background-color 0.2s;
     font-size: 0.85rem;
+    white-space: nowrap;
 }
 
 .btn-afmeld:hover {
