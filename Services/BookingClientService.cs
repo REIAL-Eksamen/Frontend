@@ -22,11 +22,10 @@ public class BookingClientService
         var response = await _http.PutAsync($"api/bookings/{bookingId}/cancel", null);
         return response.IsSuccessStatusCode;
     }
-    public async Task<bool> CreateBooking(string userId, string classSessionId)
+    public async Task<bool> CreateBooking(string classSessionId)
     {
         var response = await _http.PostAsJsonAsync("api/bookings", new
         {
-            UserId = userId,
             ClassSessionId = classSessionId
         });
 

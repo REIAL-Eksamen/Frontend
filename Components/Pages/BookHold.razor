@@ -160,15 +160,7 @@
 
     private async Task JoinClass(string classId)
     {
-        var user = await UserService.GetCurrentUser();
-
-        if (user?.Id is null)
-        {
-            Console.WriteLine("User is not logged in.");
-            return;
-        }
-
-        var success = await BookingService.CreateBooking(user.Id, classId);
+        var success = await BookingService.CreateBooking(classId);
 
         Console.WriteLine($"Booking success: {success}");
     }
