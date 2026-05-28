@@ -30,7 +30,6 @@
                 <span>Lokale</span>
                 <span>Instruktør</span>
                 <span>Starttid</span>
-                <span>Status</span>
                 <span></span>
             </div>
 
@@ -43,9 +42,6 @@
                     <span>@(classInfo?.ClassroomName ?? "")</span>
                     <span>@(classInfo?.InstructorName ?? "")</span>
                     <span>@(classInfo?.StartTime?.ToLocalTime().ToString("dd/MM HH:mm") ?? "")</span>
-                    <span class="@(booking.Status == BookingStatus.Confirmed ? "status-confirmed" : "status-cancelled")">
-                        @booking.Status
-                    </span>
                     <span>
                         @if (booking.Status == BookingStatus.Confirmed)
                         {
@@ -70,7 +66,8 @@
         var allClasses = await ClassService.GetClassOverview();
         classes = allClasses.ToDictionary(c => c.Id);
 
-        bookinger = await BookingService.GetBookingsByUserId(user.Id!);
+        var alle = await BookingService.GetBookingsByUserId(user.Id!);
+        bookinger = alle.Where(b => b.Status != BookingStatus.Cancelled).ToList();
     }
 
     private async Task AfmeldBooking(string bookingId)
@@ -78,6 +75,9 @@
         await BookingService.CancelBooking(bookingId);
         var user = await UserService.GetCurrentUser();
         if (user != null)
-            bookinger = await BookingService.GetBookingsByUserId(user.Id!);
+        {
+            var alle = await BookingService.GetBookingsByUserId(user.Id!);
+            bookinger = alle.Where(b => b.Status != BookingStatus.Cancelled).ToList();
+        }
     }
 }
