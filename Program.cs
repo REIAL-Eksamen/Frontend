@@ -6,31 +6,31 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
-builder.Services.AddHttpClient(); // ← tilføjet
+builder.Services.AddHttpClient();
 
 builder.Services.AddSingleton<TokenProvider>();
 builder.Services.AddTransient<AuthHeaderHandler>();
 
 builder.Services.AddHttpClient<AuthClientService>(c =>
 {
-    c.BaseAddress = new Uri("http://authservice:8080/");
+    c.BaseAddress = new Uri("http://nginx:4000/auth/");
 });
 
 builder.Services.AddHttpClient<ClassClientService>(c =>
-{
-    c.BaseAddress = new Uri("http://classservice:8080/");
-})
-    .AddHttpMessageHandler<AuthHeaderHandler>();;
+    {
+        c.BaseAddress = new Uri("http://nginx:4000/classes/");
+    })
+    .AddHttpMessageHandler<AuthHeaderHandler>();
 
 builder.Services.AddHttpClient<BookingClientService>(c =>
-{
-    c.BaseAddress = new Uri("http://bookingservice:8080/");
-}) 
-    .AddHttpMessageHandler<AuthHeaderHandler>();;
+    {
+        c.BaseAddress = new Uri("http://nginx:4000/bookings/");
+    })
+    .AddHttpMessageHandler<AuthHeaderHandler>();
 
 builder.Services.AddHttpClient<UserClientService>(c =>
     {
-        c.BaseAddress = new Uri("http://userservice:8080/");
+        c.BaseAddress = new Uri("http://nginx:4000/users/");
     })
     .AddHttpMessageHandler<AuthHeaderHandler>();
 
