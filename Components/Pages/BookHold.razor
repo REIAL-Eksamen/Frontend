@@ -50,6 +50,13 @@
             <button class="btn-reset" @onclick="ResetFilters">RYD FILTRE</button>
         </div>
 
+        @if (!string.IsNullOrWhiteSpace(bookingMessage))
+        {
+            <div class="booking-toast @(bookingWasSuccessful ? "success" : "error")">
+                @bookingMessage
+            </div>
+        }
+
         <div class="class-list">
             @if (isLoading)
             {
@@ -93,6 +100,9 @@
     private string selectedClass = "";
     private string selectedInstructor = "";
     private string selectedDate = "";
+
+    private string? bookingMessage;
+    private bool bookingWasSuccessful;
 
     private bool isLoading = true;
 
@@ -160,15 +170,12 @@
 
     private async Task JoinClass(string classId)
     {
-        var user = await UserService.GetCurrentUser();
+        var success = await BookingService.CreateBooking(classId);
 
-        if (user?.Id is null)
-        {
-            Console.WriteLine("User is not logged in.");
-            return;
-        }
-
-        var success = await BookingService.CreateBooking(user.Id, classId);
+        bookingWasSuccessful = success;
+        bookingMessage = success
+            ? "Du er tilmeldt holdet."
+            : "Kunne ikke tilmelde dig holdet.";
 
         Console.WriteLine($"Booking success: {success}");
     }

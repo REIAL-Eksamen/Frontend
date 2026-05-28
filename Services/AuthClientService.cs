@@ -45,10 +45,8 @@ public class AuthClientService
             FirstName = firstname,
             LastName = lastname,
             PhoneNumber = phonenumber,
-            Membership = MembershipType.Standard,
-            MembershipStatus = MembershipStatus.Active
-            
-            
+            Membership = membership,
+            MembershipStatus = status
         };
         
         var response = await _http.PostAsJsonAsync("Auth/register", model);

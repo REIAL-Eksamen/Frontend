@@ -1,18 +1,24 @@
 ﻿@page "/hjem"
+@using Frontend.Models
+@using Frontend.Services
 @inject IJSRuntime JS
+@inject UserClientService UserService
 @implements IDisposable
 
 <PageTitle>Hjem - FitLife</PageTitle>
-
-@{
-    var membershipStatus = "Premium";
-}
 
 <div class="home-container">
 
     <div class="hero-banner banner-1">
         <div class="banner-overlay">
-            @if (membershipStatus == "Standard")
+            @if (user is null)
+            {
+                <p class="banner-eyebrow">VELKOMMEN TIL FITLIFE</p>
+                <h2 class="banner-title">LOG IND FOR AT SE<br />DINE FORDELE</h2>
+                <p class="banner-desc">Få adgang til hold, medlemskab og personlige anbefalinger.</p>
+                <a href="/login" class="btn-banner">LOG IND</a>
+            }
+            else if (user.Membership == MembershipType.Standard || user.Membership == MembershipType.Student)
             {
                 <p class="banner-eyebrow">DIT NÆSTE SKRIDT</p>
                 <h2 class="banner-title">OPGRADER TIL PREMIUM<br />OG OPNÅ FLERE FORDELE</h2>
@@ -58,6 +64,13 @@
 </div>
 
 @code {
+    private UserModel? user;
+
+    protected override async Task OnInitializedAsync()
+    {
+        user = await UserService.GetCurrentUser();
+    }
+
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
