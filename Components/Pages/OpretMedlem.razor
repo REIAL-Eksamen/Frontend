@@ -45,9 +45,9 @@
 
         <div class="form-group">
             <label>Medlemskab</label>
-            <select class="form-input" @bind="membership">
-                <option value="1">Standard</option>
+            <select class="form-input" @bind="membershipString">
                 <option value="0">Studerende</option>
+                <option value="1">Standard</option>
                 <option value="2">Premium</option>
             </select>
         </div>
@@ -68,7 +68,14 @@
     private string lastName;
     private string phoneNumber;
     private string error;
-    private MembershipType membership = MembershipType.Standard;
+    private string membershipString = "1";
+
+    private MembershipType GetMembership() => membershipString switch
+    {
+        "0" => MembershipType.Stundent,
+        "2" => MembershipType.Premium,
+        _ => MembershipType.Standard
+    };
 
     private async Task RegisterUser()
     {
@@ -76,7 +83,7 @@
         
         error = null;
         
-        var success = await AuthService.Register(email, password, firstName, lastName, phoneNumber, membership, MembershipStatus.Active);
+        var success = await AuthService.Register(email, password, firstName, lastName, phoneNumber, GetMembership(), MembershipStatus.Active);
         
         Console.WriteLine($"SUCCESS: {success}");
 
@@ -85,7 +92,12 @@
             error = "Forkert email eller password";
             return;
         }
+
+        var token = await AuthService.Login(email, password);
         
-        Nav.NavigateTo("/");
+        if (token != null)
+            await LocalStorage.SetAsync("jwt", token);
+        
+        Nav.NavigateTo("/hjem");
     }
 }
