@@ -16,24 +16,24 @@ builder.Services.AddTransient<AuthHeaderHandler>();
 //auth er det eneste endpoint der ikke kræver token, da man jo ikke er logget ind endnu. 
 builder.Services.AddHttpClient<AuthClientService>(c =>
 {
-    c.BaseAddress = new Uri("http://nginx:4000/auth/");
+    c.BaseAddress = new Uri("http://10.0.1.9:8080/auth");
 });
 //resten af kaldene går gennem nginx og kræver gyldigt jwt token. 
 builder.Services.AddHttpClient<ClassClientService>(c =>
     {
-        c.BaseAddress = new Uri("http://nginx:4000/classes/");
+        c.BaseAddress = new Uri("http://10.0.1.6:8080/api/classes");
     })
     .AddHttpMessageHandler<AuthHeaderHandler>();
 
 builder.Services.AddHttpClient<BookingClientService>(c =>
     {
-        c.BaseAddress = new Uri("http://nginx:4000/bookings/");
+        c.BaseAddress = new Uri("http://10.0.1.7:8080/api/bookings");
     })
     .AddHttpMessageHandler<AuthHeaderHandler>();
 
 builder.Services.AddHttpClient<UserClientService>(c =>
     {
-        c.BaseAddress = new Uri("http://nginx:4000/users/");
+        c.BaseAddress = new Uri("http://10.0.1.10:8080/api/users");
     })
     .AddHttpMessageHandler<AuthHeaderHandler>();
 
