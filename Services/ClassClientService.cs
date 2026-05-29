@@ -1,6 +1,6 @@
 using System.Net.Http.Json;
 using Frontend.Models;
-
+//henter og håndterer hold, både til oversigt og booking siden. 
 namespace Frontend.Services;
 
 public class ClassClientService
@@ -23,7 +23,7 @@ public class ClassClientService
         var result = await _http.GetFromJsonAsync<List<ClassOverviewModel>>("api/Class/overview");
         return result ?? new List<ClassOverviewModel>();
     }
-    
+    //tilmelder den indloggede bruger til hold. 
     public async Task AddMember(string classId)
     {
         var response = await _http.PostAsync($"api/class/{classId}/members", null);

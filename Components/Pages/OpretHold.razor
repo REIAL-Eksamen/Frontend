@@ -110,7 +110,8 @@
         templates = await Http.GetFromJsonAsync<List<ClassTemplateDto>>("http://classservice:8080/api/classtemplate") ?? new();
         centers = await Http.GetFromJsonAsync<List<CenterDto>>("http://classservice:8080/api/centers/all") ?? new();
     }
-
+    //når center skiftes/vælges nulstilles lokale og instruktør, 
+    //og vi henter de tilhørende til valgte center. 
     private async Task OnCenterChanged(ChangeEventArgs e)
     {
         selectedCenterId = e.Value?.ToString() ?? "";
@@ -127,7 +128,8 @@
     {
         errorMessage = null;
         successMessage = null;
-
+        
+        //tjekker alle felter er udyfldt vi før sender, ingen tomme bookkinger.
         if (string.IsNullOrEmpty(selectedTemplateId) || string.IsNullOrEmpty(selectedCenterId) ||
             string.IsNullOrEmpty(selectedClassroomId) || string.IsNullOrEmpty(selectedInstructorId) ||
             startTime is null || endTime is null)

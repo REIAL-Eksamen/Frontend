@@ -75,6 +75,7 @@
         await BookingService.CancelBooking(bookingId);
         var user = await UserService.GetCurrentUser();
         if (user != null)
+            //viser kun aktive hold, aflyste filtreres fra. 
         {
             var alle = await BookingService.GetBookingsByUserId(user.Id!);
             bookinger = alle.Where(b => b.Status != BookingStatus.Cancelled).ToList();

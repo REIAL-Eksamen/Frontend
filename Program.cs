@@ -8,14 +8,17 @@ builder.Services.AddRazorComponents()
 
 builder.Services.AddHttpClient();
 
+//tokenprovider holder styr på jwt token på tværs af sessions. 
+//authheaderhandler sørger for at token vliver sendt med i alle kald der krvæver login.
 builder.Services.AddSingleton<TokenProvider>();
 builder.Services.AddTransient<AuthHeaderHandler>();
 
+//auth er det eneste endpoint der ikke kræver token, da man jo ikke er logget ind endnu. 
 builder.Services.AddHttpClient<AuthClientService>(c =>
 {
     c.BaseAddress = new Uri("http://nginx:4000/auth/");
 });
-
+//resten af kaldene går gennem nginx og kræver gyldigt jwt token. 
 builder.Services.AddHttpClient<ClassClientService>(c =>
     {
         c.BaseAddress = new Uri("http://nginx:4000/classes/");
@@ -41,7 +44,7 @@ if (!app.Environment.IsDevelopment())
     app.UseExceptionHandler("/Error", createScopeForErrors: true);
     app.UseHsts();
 }
-
+//sender bruger til /not-found i stedet for en grim fejlside ved 404 og lignende. 
 app.UseStatusCodePagesWithReExecute("/not-found", createScopeForStatusCodePages: true);
 app.UseHttpsRedirection();
 app.UseAntiforgery();

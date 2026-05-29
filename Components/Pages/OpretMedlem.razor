@@ -92,7 +92,7 @@
             error = "Forkert email eller password";
             return;
         }
-
+        //logger brugere ind med det samme efter registrering så de slipper for at taste info igen. 
         var token = await AuthService.Login(email, password);
         
         if (token != null)

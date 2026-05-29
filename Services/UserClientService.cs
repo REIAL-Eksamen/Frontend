@@ -1,5 +1,6 @@
 using Frontend.Models;
 
+//her hentes data om den bruger der er logget ind. 
 namespace Frontend.Services;
 
 public class UserClientService
@@ -10,7 +11,7 @@ public class UserClientService
     {
         _http = http;
     }
-
+//returnerer null hvis bruger ikke er logget ind eller ikke findes. 
     public async Task<UserModel?> GetCurrentUser()
     {
         var request = new HttpRequestMessage(HttpMethod.Get, "api/users/me");

@@ -1,5 +1,7 @@
 using System.Net.Http.Headers;
 
+//sørger automatisk for at jwt token bliver sendt med i alle http kald der kræver login. 
+//slipper for at tænke på det manuelt i hvert service. 
 namespace Frontend.Services;
 
 public class AuthHeaderHandler : DelegatingHandler
@@ -19,7 +21,7 @@ public class AuthHeaderHandler : DelegatingHandler
 
         Console.WriteLine("HANDLER TOKEN: " + token);
         Console.WriteLine("REQUEST: " + request.RequestUri);
-
+//hvis vi har et token sættes det på requestens authorization header. 
         if (!string.IsNullOrEmpty(token))
         {
             request.Headers.Authorization =

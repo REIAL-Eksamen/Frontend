@@ -1,6 +1,7 @@
 using System.Net.Http.Json;
 using Frontend.Models;
 
+//håndterer login og registrering og gemmer token når bruger logger ind. 
 namespace Frontend.Services;
 
 public class AuthClientService
@@ -13,7 +14,7 @@ public class AuthClientService
         _http = http;
         _tokenProvider = tokenProvider;
     }
-
+//logger bruger ind og gemmer jwt token, så det kan bruges i efterfølgende kald. 
     public async Task<string?> Login(string email, string password)
     {
         var response = await _http.PostAsJsonAsync("Auth/login", new LoginModel
