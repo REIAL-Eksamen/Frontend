@@ -1,71 +1,149 @@
 .profil-container {
     max-width: 800px;
     margin: 0 auto;
-    padding: 2rem 2rem;
-    height: 100vh;
-    overflow: hidden;
+    padding: 1.5rem 2rem;
+    height: calc(100vh - 70px);
+    overflow-y: auto;
     display: flex;
     flex-direction: column;
+    scrollbar-width: thin;
+    scrollbar-color: #4CAF50 transparent;
 }
 
 .profil-header {
     display: flex;
     align-items: center;
-    gap: 2rem;
+    gap: 1.25rem;
     margin-bottom: 1.5rem;
 }
 
 .profil-avatar {
-    width: 100px;
-    height: 100px;
+    width: 72px;
+    height: 72px;
     border-radius: 50%;
-    background-color: #e8e8e8;
-    border: 4px solid #4CAF50;
+    background: linear-gradient(135deg, #2e7d32, #4CAF50);
+    border: 3px solid #4CAF50;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 3rem;
+    font-size: 1.8rem;
     flex-shrink: 0;
 }
 
 .profil-navn h1 {
-    font-size: 2rem;
+    font-size: 1.5rem;
     font-weight: 700;
     margin: 0;
     color: white;
+    line-height: 1;
 }
 
-.profil-navn p {
-    color: #ccc;
+.profil-navn .membership-type {
+    color: #4CAF50;
+    font-size: 0.85rem;
+    margin: 0.2rem 0 0;
+}
+
+.profil-navn .center-navn {
+    color: #777;
+    font-size: 0.78rem;
     margin: 0;
 }
 
-.profil-kort {
-    background: #e8e8e8;
-    border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-    padding: 1.5rem 2rem;
+.stat-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.75rem;
     margin-bottom: 1rem;
-    color: #1a1a1a;
+}
+
+.stat-kort {
+    border-radius: 14px;
+    padding: 1.1rem 1.25rem;
+    border: 1px solid rgba(255,255,255,0.07);
+}
+
+.stat-kort.green {
+    background: linear-gradient(135deg, #1b5e20 0%, #2e7d32 100%);
+}
+
+.stat-kort.green2 {
+    background: linear-gradient(135deg, #1a3a1c 0%, #256329 100%);
+}
+
+.stat-kort.dark {
+    background: #1c1c1c;
+}
+
+.stat-label {
+    font-size: 0.68rem;
+    color: rgba(255,255,255,0.55);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 0.3rem;
+}
+
+.stat-value {
+    font-size: 1.7rem;
+    font-weight: 700;
+    color: white;
+}
+
+.stat-sub {
+    font-size: 0.7rem;
+    color: rgba(255,255,255,0.6);
+    margin-top: 0.15rem;
+}
+
+.stat-bar-bg {
+    background: rgba(0,0,0,0.25);
+    border-radius: 10px;
+    height: 6px;
+    margin-top: 0.6rem;
+    overflow: hidden;
+}
+
+.stat-bar-fill {
+    background: rgba(255,255,255,0.7);
+    height: 6px;
+    border-radius: 10px;
+}
+
+.profil-kort {
+    background: #1c1c1c;
+    border-radius: 14px;
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1rem;
+    border: 1px solid #2a2a2a;
+}
+
+.profil-kort.highlight {
+    background: #1a2e1b;
+    border: 1px solid #2e5e30;
 }
 
 .profil-kort h2 {
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: #555;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 2px;
     text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: 1rem;
-    padding-bottom: 0.5rem;
-    border-bottom: 2px solid #ccc;
+    color: #4CAF50;
+    margin: 0 0 1rem;
+    padding-bottom: 0.6rem;
+    border-bottom: 1px solid #2a2a2a;
+}
+
+.profil-kort.highlight h2 {
+    border-bottom-color: #2e5e30;
 }
 
 .profil-felt {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0.7rem 0;
-    border-bottom: 1px solid #ccc;
+    padding: 0.65rem 0;
+    border-bottom: 1px solid #222;
+    font-size: 0.9rem;
 }
 
 .profil-felt:last-child {
@@ -73,50 +151,112 @@
 }
 
 .felt-label {
-    color: #555;
-    font-size: 0.95rem;
+    color: #777;
 }
 
 .felt-value {
     font-weight: 500;
-    font-size: 0.95rem;
-    color: #1a1a1a;
-}
-
-.membership-aktiv {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
+    color: #eee;
 }
 
 .badge-aktiv {
-    background-color: #1b5e20;
-    color: #4CAF50;
-    padding: 0.3rem 1rem;
+    background: #1b5e20;
+    color: #69f070;
+    padding: 0.2rem 0.9rem;
     border-radius: 20px;
-    font-weight: 600;
-    font-size: 0.9rem;
+    font-weight: 700;
+    font-size: 0.72rem;
+    letter-spacing: 1px;
 }
 
 .badge-inaktiv {
-    background-color: #4a0000;
+    background: #4a0000;
     color: #ef9a9a;
-    padding: 0.3rem 1rem;
+    padding: 0.2rem 0.9rem;
     border-radius: 20px;
-    font-weight: 600;
-    font-size: 0.9rem;
+    font-weight: 700;
+    font-size: 0.72rem;
+}
+
+.uge-grid {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.uge-dag {
+    flex: 1;
+    text-align: center;
+}
+
+.uge-dot {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    margin: 0 auto 0.3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.65rem;
+    font-weight: 700;
+}
+
+.uge-dot.besogt {
+    background: #4CAF50;
+    color: white;
+}
+
+.uge-dot.idag {
+    background: transparent;
+    border: 2px solid #4CAF50;
+    color: #4CAF50;
+}
+
+.uge-dot.tom {
+    background: #1a1a1a;
+    border: 1px solid #2a2a2a;
+    color: #444;
+}
+
+.uge-navn {
+    font-size: 0.6rem;
+    color: #555;
+    text-transform: uppercase;
+}
+
+.btn-qr {
+    width: 100%;
+    padding: 1.1rem;
+    background: #4CAF50;
+    border: none;
+    border-radius: 14px;
+    color: white;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+    transition: background-color 0.2s, transform 0.15s;
+}
+
+.btn-qr:hover {
+    background-color: #388E3C;
+    transform: scale(1.01);
 }
 
 .btn-opsig {
-    padding: 0.4rem 1rem;
+    padding: 0.35rem 1rem;
     border-radius: 20px;
-    border: 2px solid #e53935;
+    border: 1.5px solid #e53935;
     background: transparent;
     color: #e53935;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.2s;
-    font-size: 0.85rem;
+    font-size: 0.82rem;
 }
 
 .btn-opsig:hover {
@@ -124,32 +264,18 @@
     color: white;
 }
 
-.btn-optag {
-    padding: 0.4rem 1rem;
-    border-radius: 20px;
-    border: none;
-    background: #4CAF50;
-    color: white;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s;
-    font-size: 0.85rem;
-}
-
-.btn-optag:hover {
-    background: #388E3C;
-}
-
 .btn-rediger {
-    padding: 0.6rem 1.5rem;
+    margin-left: auto;
+    padding: 0.5rem 1.2rem;
     border-radius: 20px;
-    border: 2px solid #4CAF50;
+    border: 1.5px solid #4CAF50;
     background: transparent;
     color: #4CAF50;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.2s;
-    margin-top: 0.8rem;
+    font-size: 0.8rem;
+    flex-shrink: 0;
 }
 
 .btn-rediger:hover {

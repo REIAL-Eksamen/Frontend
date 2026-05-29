@@ -1,20 +1,43 @@
-﻿<header class="fitlife-header">
+﻿@code {
+    private string UserRole = "Medlem";
+}
+
+<header class="fitlife-header">
     <nav class="fitlife-nav">
         <a href="/hjem" class="logo">
             <span class="logo-fit">FIT</span><span class="logo-life">LIFE</span>
         </a>
+
         <div class="nav-links">
-            <NavLink href="/hjem">Hjem</NavLink>
-            <NavLink href="findcentre">Find centre</NavLink>
-            <NavLink href="bookhold">Book hold</NavLink>
-            <NavLink href="personligtræning">Personlig træning</NavLink>
-            <NavLink href="træningsplaner">Træningsplaner</NavLink>
+            @if (UserRole == "Admin")
+            {
+                <NavLink href="/adminhjem">Hjem</NavLink>
+                <NavLink href="/medlemmer">Medlemmer</NavLink>
+                <NavLink href="/personale">Personale</NavLink>
+                <NavLink href="/hold">Hold</NavLink>
+            }
+            else
+            {
+                <NavLink href="/hjem">Hjem</NavLink>
+                <NavLink href="/findcentre">Find centre</NavLink>
+                <NavLink href="/bookhold">Book hold</NavLink>
+                <NavLink href="/personligtræning">Personlig træning</NavLink>
+                <NavLink href="/træningsplaner">Træningsplaner</NavLink>
+            }
         </div>
+
         <div class="user-avatar">
             <div class="avatar-circle" onclick="toggleDropdown()">👤</div>
             <div class="dropdown-menu" id="dropdownMenu">
                 <a href="/profil">Min profil</a>
-                <a href="/minebookinger">Mine bookinger</a>
+                @if (UserRole == "Admin")
+                {
+                    <a href="/indstillinger">Indstillinger</a>
+                }
+                else
+                {
+                    <a href="/minebookinger">Mine bookinger</a>
+                }
                 <a href="/logout">Log ud</a>
             </div>
         </div>

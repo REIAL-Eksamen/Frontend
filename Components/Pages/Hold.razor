@@ -1,0 +1,51 @@
+@using Frontend.Services
+@using Frontend.Models
+@inject ClassClientService ClassService
+
+@page "/hold"
+
+<PageTitle>Hold - FitLife</PageTitle>
+
+<div class="hold-container">
+    <div class="hold-header">
+        <div>
+            <h1>Hold</h1>
+            <p class="hold-sub">Oversigt over alle hold</p>
+        </div>
+        <a href="/oprethold" class="btn-opret">+ OPRET HOLD</a>
+    </div>
+
+    <div class="hold-list">
+        
+        @if (_classes != null)
+        {
+            @foreach (ClassModel c in _classes)
+            {
+                <div class="hold-item">
+                    <div class="hold-info">
+                        <span class="hold-navn">@c.ClassName</span>
+                        <span class="hold-type">@c.ClassType</span>
+                        <span class="hold-beskrivelse">@c.ClassDescription</span>
+                        <span class="hold-starttid">@c.StartTime</span>
+                        <span class="hold-sluttid">@c.EndTime</span>
+                        <span class="hold-instruktør">@c.InstructorId</span>
+                        <span class="hold-center">@c.CenterId</span>
+                        <span class="hold-lokale">@c.Classroom?.ClassroomName</span>
+                        <span class="hold-status">@c.Status</span>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>   
+
+@code {
+
+    private List<ClassModel> _classes;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _classes = await ClassService.GetClasses();
+    }
+
+}

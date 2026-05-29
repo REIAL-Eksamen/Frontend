@@ -1,0 +1,140 @@
+.oprethold-container {
+    padding: 2rem 3rem;
+    background-color: #2d2d2d;
+    min-height: 100vh;
+    height: 100vh;
+    overflow-y: auto;
+    color: white;
+    display: flex;
+    flex-direction: column;
+}
+
+.oprethold-header {
+    margin-bottom: 2rem;
+}
+
+.oprethold-header h1 {
+    font-size: 2rem;
+    font-weight: 900;
+    color: white;
+    margin: 0;
+}
+
+.oprethold-sub {
+    color: #aaa;
+    margin: 0.3rem 0 0 0;
+}
+
+.oprethold-form {
+    width: 100%;
+    max-width: 100%;
+}
+
+.form-section {
+    background: rgba(232, 232, 232, 0.15);
+    border-radius: 16px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    color: white;
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+.form-section h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #ccc;
+    margin-bottom: 1.2rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.4rem;
+    font-weight: 500;
+    color: #ccc;
+    font-size: 0.9rem;
+}
+
+.form-input {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0.2);
+    background: #3a3a3a;
+    color: white;
+    font-size: 0.95rem;
+    transition: border 0.2s;
+    box-sizing: border-box;
+    appearance: auto;
+}
+
+.form-input::placeholder {
+    color: #888;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: #4CAF50;
+}
+
+.form-input option {
+    background-color: #3a3a3a;
+    color: white;
+}
+
+.form-textarea {
+    height: 100px;
+    resize: vertical;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.form-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+    margin-top: 1rem;
+    padding-bottom: 6rem;
+}
+
+.btn-annuller {
+    padding: 0.9rem 2rem;
+    border-radius: 30px;
+    border: 2px solid #aaa;
+    background: transparent;
+    color: #aaa;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 0.2s;
+}
+
+.btn-annuller:hover {
+    border-color: white;
+    color: white;
+}
+
+.btn-opret {
+    padding: 0.9rem 2rem;
+    border-radius: 30px;
+    border: none;
+    background-color: #4CAF50;
+    color: white;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-opret:hover {
+    background-color: #388E3C;
+    transform: scale(1.05);
+}

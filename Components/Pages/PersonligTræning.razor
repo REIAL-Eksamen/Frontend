@@ -1,64 +1,235 @@
-﻿@page "/weather"
-@attribute [StreamRendering]
+﻿@page "/personligtræning"
+@rendermode InteractiveServer
 
-<PageTitle>Weather</PageTitle>
+<PageTitle>Personlig træning - FitLife</PageTitle>
 
-<h1>Weather</h1>
+<div class="pt-container">
 
-<p>This component demonstrates showing data.</p>
+    <div class="pt-header">
+        <div>
+            <h1>PERSONLIG TRÆNING</h1>
+            <p class="pt-sub">Registrer og følg dine egne træninger</p>
+        </div>
+        <div class="pt-total">
+            <span class="pt-total-tal">@traeningen.Count</span>
+            <span class="pt-total-label">TRÆNINGER I ALT</span>
+        </div>
+    </div>
 
-@if (forecasts == null)
-{
-    <p><em>Loading...</em></p>
-}
-else
-{
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Date</th>
-                <th aria-label="Temperature in Celsius">Temp. (C)</th>
-                <th aria-label="Temperature in Fahrenheit">Temp. (F)</th>
-                <th>Summary</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var forecast in forecasts)
+    <div class="pt-kort">
+        <h2>Ny træning — Vælg øvelser</h2>
+
+        <div class="kategori-grid">
+            @foreach (var kat in kategorier)
             {
-                <tr>
-                    <td>@forecast.Date.ToShortDateString()</td>
-                    <td>@forecast.TemperatureC</td>
-                    <td>@forecast.TemperatureF</td>
-                    <td>@forecast.Summary</td>
-                </tr>
+                <button class="kat-pill @(aktivKategori == kat ? "aktiv" : "")"
+                        @onclick="() => aktivKategori = kat">@kat</button>
             }
-        </tbody>
-    </table>
-}
+        </div>
 
-@code {
-    private WeatherForecast[]? forecasts;
+        <div class="oevelse-headers">
+            <span>Øvelse</span>
+            <span>Vægt (kg)</span>
+            <span>Sæt</span>
+            <span>Reps</span>
+            <span></span>
+        </div>
 
-    protected override async Task OnInitializedAsync()
-    {
-        // Simulate asynchronous loading to demonstrate streaming rendering
-        await Task.Delay(500);
-
-        var startDate = DateOnly.FromDateTime(DateTime.Now);
-        var summaries = new[] { "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching" };
-        forecasts = Enumerable.Range(1, 5).Select(index => new WeatherForecast
+        @foreach (var item in valgteOevelser)
         {
-            Date = startDate.AddDays(index),
-            TemperatureC = Random.Shared.Next(-20, 55),
-            Summary = summaries[Random.Shared.Next(summaries.Length)]
-        }).ToArray();
+            <div class="oevelse-row">
+                <span class="oevelse-navn">@item.Navn</span>
+                <input class="oevelse-input" type="number" min="0"
+                       @bind="item.Vaegt" @bind:event="oninput"/>
+                <input class="oevelse-input" type="number" min="1"
+                       @bind="item.Saet" @bind:event="oninput"/>
+                <input class="oevelse-input" type="number" min="1"
+                       @bind="item.Reps" @bind:event="oninput"/>
+                <button class="btn-del" @onclick="() => FjernOevelse(item)">✕</button>
+            </div>
+        }
+
+        <div class="tilfoej-row">
+            <select class="select-styled" @bind="valgtOevelse">
+                <option value="">Tilføj øvelse...</option>
+                @foreach (var o in FilteredOevelser())
+                {
+                    <option value="@o.Navn">@o.Navn</option>
+                }
+            </select>
+            <button class="btn-green" @onclick="TilfoejOevelse">+ TILFØJ</button>
+        </div>
+
+        <div class="custom-row">
+            <input class="oevelse-input-custom" type="text" placeholder="Skriv egen øvelse..."
+                   @bind="customOevelse" @bind:event="oninput"
+                   @onkeydown="@(e => { if (e.Key == "Enter") TilfoejCustom(); })"/>
+            <button class="btn-outline-green" @onclick="TilfoejCustom">+ OPRET</button>
+        </div>
+    </div>
+
+    <div class="pt-kort">
+        <h2>Kommentar til træningen</h2>
+        <textarea class="kommentar" placeholder="Hvordan føltes træningen? Noget der gik særligt godt eller skidt?"
+                  @bind="kommentar"></textarea>
+    </div>
+
+    @if (!string.IsNullOrEmpty(feedback))
+    {
+        <p class="feedback-msg">@feedback</p>
     }
 
-    private class WeatherForecast
+    <button class="btn-gem" @onclick="GemTraening">GEM TRÆNING</button>
+
+    @if (traeningen.Any())
     {
-        public DateOnly Date { get; set; }
-        public int TemperatureC { get; set; }
-        public string? Summary { get; set; }
-        public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
+        <div class="pt-kort pt-kort-green">
+            <h2>Tidligere træninger</h2>
+            @foreach (var t in traeningen.OrderByDescending(x => x.Dato))
+            {
+                <div class="log-item">
+                    <div>
+                        <div class="log-navn">@t.Navn</div>
+                        <div class="log-oevelser">@string.Join(" · ", t.Oevelser)</div>
+                        @if (!string.IsNullOrEmpty(t.Kommentar))
+                        {
+                            <div class="log-kommentar">@t.Kommentar</div>
+                        }
+                    </div>
+                    <div class="log-dato">@t.Dato.ToString("d/M") · @t.Oevelser.Count øvelser</div>
+                </div>
+            }
+        </div>
+    }
+
+</div>
+
+@code {
+
+    private string aktivKategori = "Alle";
+    private string valgtOevelse = "";
+    private string customOevelse = "";
+    private string kommentar = "";
+    private string feedback = "";
+
+    private List<string> kategorier = new() {
+        "Alle", "Bryst", "Ryg", "Ben", "Skuldre", "Arme", "Core", "Cardio"
+    };
+
+    private record OevelseDefinition(string Navn, string Kategori);
+
+    private List<OevelseDefinition> alleOevelser = new()
+    {
+        new("Bænkpres", "Bryst"),
+        new("Incline bænkpres", "Bryst"),
+        new("Dips", "Bryst"),
+        new("Dødløft", "Ryg"),
+        new("Pullups", "Ryg"),
+        new("Seated row", "Ryg"),
+        new("Lat pulldown", "Ryg"),
+        new("Squat", "Ben"),
+        new("Leg press", "Ben"),
+        new("Lunges", "Ben"),
+        new("Leg curl", "Ben"),
+        new("Skulderpres", "Skuldre"),
+        new("Lateral raise", "Skuldre"),
+        new("Front raise", "Skuldre"),
+        new("Bicep curl", "Arme"),
+        new("Hammer curl", "Arme"),
+        new("Tricep pushdown", "Arme"),
+        new("Skullcrusher", "Arme"),
+        new("Planke", "Core"),
+        new("Russian twist", "Core"),
+        new("Crunches", "Core"),
+        new("Løbebånd", "Cardio"),
+        new("Rowing", "Cardio"),
+        new("Cykel", "Cardio"),
+    };
+
+    private class OevelseItem
+    {
+        public string Navn { get; set; } = "";
+        public int Vaegt { get; set; } = 0;
+        public int Saet { get; set; } = 3;
+        public int Reps { get; set; } = 10;
+    }
+
+    private class TraeningLog
+    {
+        public string Navn { get; set; } = "";
+        public DateTime Dato { get; set; }
+        public List<string> Oevelser { get; set; } = new();
+        public string Kommentar { get; set; } = "";
+    }
+
+    private List<OevelseItem> valgteOevelser = new()
+    {
+        new() { Navn = "Bænkpres", Vaegt = 80, Saet = 4, Reps = 8 },
+        new() { Navn = "Squat", Vaegt = 100, Saet = 5, Reps = 5 },
+    };
+
+    private List<TraeningLog> traeningen = new()
+    {
+        new() { Navn = "Bryst + Triceps", Dato = DateTime.Today.AddDays(-3),
+            Oevelser = new() { "Bænkpres", "Dips", "Tricep pushdown" },
+            Kommentar = "Gik rigtig godt i dag!" },
+        new() { Navn = "Ben dag", Dato = DateTime.Today.AddDays(-5),
+            Oevelser = new() { "Squat", "Leg press", "Lunges" } },
+        new() { Navn = "Ryg + Biceps", Dato = DateTime.Today.AddDays(-7),
+            Oevelser = new() { "Dødløft", "Pullups", "Bicep curl" },
+            Kommentar = "Ny PR på dødløft — 130kg!" },
+    };
+
+    private List<OevelseDefinition> FilteredOevelser()
+    {
+        var allerede = valgteOevelser.Select(o => o.Navn).ToHashSet();
+        return alleOevelser
+            .Where(o => (aktivKategori == "Alle" || o.Kategori == aktivKategori)
+                     && !allerede.Contains(o.Navn))
+            .ToList();
+    }
+
+    private void TilfoejOevelse()
+    {
+        if (string.IsNullOrEmpty(valgtOevelse)) return;
+        valgteOevelser.Add(new OevelseItem { Navn = valgtOevelse });
+        valgtOevelse = "";
+    }
+
+    private void FjernOevelse(OevelseItem item)
+    {
+        valgteOevelser.Remove(item);
+    }
+
+    private void TilfoejCustom()
+    {
+        var navn = customOevelse.Trim();
+        if (string.IsNullOrEmpty(navn)) return;
+        if (valgteOevelser.Any(o => o.Navn.ToLower() == navn.ToLower())) return;
+        valgteOevelser.Add(new OevelseItem { Navn = navn });
+        customOevelse = "";
+    }
+
+    private void GemTraening()
+    {
+        if (!valgteOevelser.Any())
+        {
+            feedback = "Tilføj mindst én øvelse før du gemmer.";
+            return;
+        }
+
+        traeningen.Add(new TraeningLog
+        {
+            Navn = string.Join(" + ", valgteOevelser
+                .Select(o => alleOevelser.FirstOrDefault(a => a.Navn == o.Navn)?.Kategori)
+                .Where(k => k != null).Distinct()),
+            Dato = DateTime.Today,
+            Oevelser = valgteOevelser.Select(o => o.Navn).ToList(),
+            Kommentar = kommentar
+        });
+
+        valgteOevelser.Clear();
+        kommentar = "";
+        feedback = "Træning gemt!";
     }
 }

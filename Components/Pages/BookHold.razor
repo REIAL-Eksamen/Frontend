@@ -1,6 +1,12 @@
 ﻿@page "/bookhold"
+@using Frontend.Models
+@using Frontend.Services
+@inject ClassClientService ClassClientService
+@rendermode InteractiveServer
+@inject BookingClientService BookingService
+@inject UserClientService UserService
 
-<PageTitle>Book et hold - FitLife</PageTitle>
+<PageTitle>Holdbooking - FitLife</PageTitle>
 
 <div class="booking-page">
     <div class="booking-overlay">
@@ -8,72 +14,170 @@
         <p>DU KAN SE ALLE HOLD HERUNDER - OP TIL 14 DAGE FREM.</p>
 
         <div class="filters">
-            <select class="filter-select">
-                <option>Vælg Center ▼</option>
+            <select class="filter-select" @bind="selectedCenter">
+                <option value="">Vælg Center</option>
+                @foreach (var center in centers)
+                {
+                    <option value="@center">@center</option>
+                }
             </select>
-            <select class="filter-select">
-                <option>Vælg Hold ▼</option>
+
+            <select class="filter-select" @bind="selectedClass">
+                <option value="">Vælg Hold</option>
+                @foreach (var className in classNames)
+                {
+                    <option value="@className">@className</option>
+                }
             </select>
-            <select class="filter-select">
-                <option>Vælg Instruktør ▼</option>
+
+            <select class="filter-select" @bind="selectedInstructor">
+                <option value="">Vælg Instruktør</option>
+                @foreach (var instructor in instructors)
+                {
+                    <option value="@instructor">@instructor</option>
+                }
             </select>
-            <select class="filter-select">
-                <option>Vælg Dato ▼</option>
+
+            <select class="filter-select" @bind="selectedDate">
+                <option value="">Vælg Dato</option>
+                @foreach (var date in dates)
+                {
+                    <option value="@date">@date</option>
+                }
             </select>
-            <button class="btn-search">SØG</button>
-            <button class="btn-reset">RYD FILTRE</button>
+
+            <button class="btn-search" @onclick="ApplyFilters">SØG</button>
+            <button class="btn-reset" @onclick="ResetFilters">RYD FILTRE</button>
         </div>
 
+        @if (!string.IsNullOrWhiteSpace(bookingMessage))
+        {
+            <div class="booking-toast @(bookingWasSuccessful ? "success" : "error")">
+                @bookingMessage
+            </div>
+        }
+
         <div class="class-list">
-            <div class="class-item">
-                <span>Århus C, Scandinavian</span>
-                <span>Pilates</span>
-                <span>Mette Christensen</span>
-                <span>7/5 10:30</span>
-                <button class="btn-tilmeld">TILMELD</button>
-            </div>
-            <div class="class-item">
-                <span>Randers, Viborgvej</span>
-                <span>Stram op</span>
-                <span>Dennis Knudsen</span>
-                <span>7/5 11:30</span>
-                <button class="btn-tilmeld">TILMELD</button>
-            </div>
-            <div class="class-item">
-                <span>Horsens, Forum</span>
-                <span>Vand aerobic</span>
-                <span>Ulla Wissendorf</span>
-                <span>7/5 12:00</span>
-                <button class="btn-venteliste">VENTELISTE</button>
-            </div>
-            <div class="class-item">
-                <span>Skanderborg, Ringvejen</span>
-                <span>Boksning</span>
-                <span>Kim Jensen</span>
-                <span>7/5 12:30</span>
-                <button class="btn-tilmeld">TILMELD</button>
-            </div>
-            <div class="class-item">
-                <span>Skanderborg, Ringvejen</span>
-                <span>Yin Yoga</span>
-                <span>Bettina Jensen</span>
-                <span>7/5 12:30</span>
-                <button class="btn-tilmeld">TILMELD</button>
-            </div>
-            <div class="class-item">
-                <span>Århus C, Spanien</span>
-                <span>Yang Yoga</span>
-                <span>Destiny Fischer</span>
-                <span>7/5 13:30</span>
-                <button class="btn-venteliste">VENTELISTE</button>
-            </div>
-            <div class="class-item">
-                <span>Århus C, Spanien</span>
-                <span>Introhold</span>
-                <span>Torsten Torbensen</span>
-                <span>7/5 14:00</span>
-                <button class="btn-tilmeld">TILMELD</button>
-            </div>
+            @if (isLoading)
+            {
+                <p>Indlæser hold...</p>
+            }
+            else if (classes.Count == 0)
+            {
+                <p>Ingen hold fundet.</p>
+            }
+            else
+            {
+                @foreach (var item in classes)
+                {
+                    <div class="class-item">
+                        <span>@item.CenterName</span>
+                        <span>@item.ClassName</span>
+                        <span>@item.ClassType</span>
+                        <span>@item.InstructorName</span>
+                        <span>@(item.StartTime?.ToString("d/M HH:mm") ?? "Tid mangler")</span>
+
+                        <button class="btn-tilmeld" @onclick="() => JoinClass(item.Id)">
+                            TILMELD
+                        </button>
+                    </div>
+                }
+            }
         </div>
     </div>
 </div>
+
+@code {
+    private List<ClassOverviewModel> allClasses = new();
+    private List<ClassOverviewModel> classes = new();
+
+    private List<string> centers = new();
+    private List<string> classNames = new();
+    private List<string> instructors = new();
+    private List<string> dates = new();
+
+    private string selectedCenter = "";
+    private string selectedClass = "";
+    private string selectedInstructor = "";
+    private string selectedDate = "";
+
+    private string? bookingMessage;
+    private bool bookingWasSuccessful;
+
+    private bool isLoading = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        isLoading = true;
+
+        try
+        {
+            allClasses = await ClassClientService.GetClassOverview();
+            classes = allClasses;
+
+            centers = allClasses
+                .Select(c => c.CenterName)
+                .Where(c => !string.IsNullOrWhiteSpace(c))
+                .Distinct()
+                .OrderBy(c => c)
+                .ToList();
+
+            classNames = allClasses
+                .Select(c => c.ClassName)
+                .Where(c => !string.IsNullOrWhiteSpace(c))
+                .Distinct()
+                .OrderBy(c => c)
+                .ToList();
+
+            instructors = allClasses
+                .Select(c => c.InstructorName)
+                .Where(i => !string.IsNullOrWhiteSpace(i))
+                .Distinct()
+                .OrderBy(i => i)
+                .ToList();
+
+            dates = allClasses
+                .Where(c => c.StartTime is not null)
+                .Select(c => c.StartTime!.Value.ToString("d/M"))
+                .Distinct()
+                .OrderBy(d => d)
+                .ToList();
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+
+    
+    private void ApplyFilters()
+    {
+        classes = allClasses
+            .Where(c => string.IsNullOrWhiteSpace(selectedCenter) || c.CenterName == selectedCenter)
+            .Where(c => string.IsNullOrWhiteSpace(selectedClass) || c.ClassName == selectedClass)
+            .Where(c => string.IsNullOrWhiteSpace(selectedInstructor) || c.InstructorName == selectedInstructor)
+            .Where(c => string.IsNullOrWhiteSpace(selectedDate) || c.StartTime?.ToString("d/M") == selectedDate)
+            .ToList();
+    }
+
+    private void ResetFilters()
+    {
+        selectedCenter = "";
+        selectedClass = "";
+        selectedInstructor = "";
+        selectedDate = "";
+        classes = allClasses;
+    }
+
+    private async Task JoinClass(string classId)
+    {
+        var success = await BookingService.CreateBooking(classId);
+
+        bookingWasSuccessful = success;
+        bookingMessage = success
+            ? "Du er tilmeldt holdet."
+            : "Kunne ikke tilmelde dig holdet.";
+
+        Console.WriteLine($"Booking success: {success}");
+    }
+}

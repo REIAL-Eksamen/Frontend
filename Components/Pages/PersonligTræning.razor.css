@@ -1,0 +1,350 @@
+.pt-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 1.5rem 3rem;
+    height: calc(100vh - 70px);
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    scrollbar-width: thin;
+    scrollbar-color: #4CAF50 transparent;
+}
+
+.pt-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+}
+
+.pt-header h1 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: white;
+    margin: 0;
+}
+
+.pt-sub {
+    color: #777;
+    font-size: 0.78rem;
+    margin: 0.2rem 0 0;
+}
+
+.pt-total {
+    text-align: right;
+    flex-shrink: 0;
+}
+
+.pt-total-tal {
+    display: block;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #4CAF50;
+    line-height: 1;
+}
+
+.pt-total-label {
+    font-size: 0.65rem;
+    color: #555;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+}
+
+.pt-kort {
+    background: #1c1c1c;
+    border-radius: 14px;
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1rem;
+    border: 1px solid #2a2a2a;
+}
+
+.pt-kort-green {
+    background: #1a2e1b;
+    border: 1px solid #2e5e30;
+}
+
+.pt-kort h2 {
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #4CAF50;
+    margin: 0 0 1rem;
+    padding-bottom: 0.6rem;
+    border-bottom: 1px solid #2a2a2a;
+}
+
+.pt-kort-green h2 {
+    border-bottom-color: #2e5e30;
+}
+
+.kategori-grid {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+}
+
+.kat-pill {
+    padding: 0.35rem 1rem;
+    border-radius: 20px;
+    border: 1px solid #2a2a2a;
+    background: #1a1a1a;
+    color: #777;
+    font-size: 0.78rem;
+    cursor: pointer;
+    transition: all 0.15s;
+}
+
+.kat-pill:hover {
+    border-color: #4CAF50;
+    color: #4CAF50;
+}
+
+.kat-pill.aktiv {
+    background: #4CAF50;
+    border-color: #4CAF50;
+    color: white;
+    font-weight: 600;
+}
+
+.oevelse-headers {
+    display: grid;
+    grid-template-columns: 1fr 100px 80px 80px 36px;
+    gap: 0.75rem;
+    padding: 0 1rem;
+    margin-bottom: 0.3rem;
+    font-size: 0.65rem;
+    color: #555;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.oevelse-row {
+    display: grid;
+    grid-template-columns: 1fr 100px 80px 80px 36px;
+    gap: 0.75rem;
+    align-items: center;
+    background: #222;
+    border-radius: 10px;
+    padding: 0.7rem 1rem;
+    font-size: 0.88rem;
+    margin-bottom: 0.4rem;
+    transition: background 0.15s;
+}
+
+.oevelse-row:hover {
+    background: #282828;
+}
+
+.oevelse-navn {
+    color: #eee;
+    font-weight: 500;
+}
+
+.oevelse-input {
+    background: #2a2a2a;
+    border: 1px solid #333;
+    border-radius: 8px;
+    color: white;
+    text-align: center;
+    padding: 0.3rem;
+    font-size: 0.85rem;
+    width: 100%;
+}
+
+.oevelse-input:focus {
+    outline: none;
+    border-color: #4CAF50;
+}
+
+.btn-del {
+    background: transparent;
+    border: 1px solid #3a3a3a;
+    border-radius: 8px;
+    color: #555;
+    cursor: pointer;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    transition: all 0.15s;
+}
+
+.btn-del:hover {
+    border-color: #e53935;
+    color: #e53935;
+}
+
+.tilfoej-row {
+    display: grid;
+    grid-template-columns: 1fr 120px;
+    gap: 0.75rem;
+    margin-top: 0.75rem;
+}
+
+.custom-row {
+    display: grid;
+    grid-template-columns: 1fr 120px;
+    gap: 0.75rem;
+    margin-top: 0.6rem;
+}
+
+.select-styled {
+    background: #2a2a2a;
+    border: 1px solid #333;
+    border-radius: 10px;
+    color: white;
+    padding: 0.6rem 1rem;
+    font-size: 0.85rem;
+    width: 100%;
+}
+
+.select-styled:focus {
+    outline: none;
+    border-color: #4CAF50;
+}
+
+.oevelse-input-custom {
+    background: #2a2a2a;
+    border: 1px dashed #3a3a3a;
+    border-radius: 10px;
+    color: white;
+    padding: 0.6rem 1rem;
+    font-size: 0.85rem;
+    width: 100%;
+    transition: border-color 0.2s;
+}
+
+.oevelse-input-custom:focus {
+    outline: none;
+    border-color: #4CAF50;
+}
+
+.oevelse-input-custom::placeholder {
+    color: #555;
+}
+
+.btn-green {
+    background: #4CAF50;
+    border: none;
+    border-radius: 10px;
+    color: white;
+    font-weight: 700;
+    font-size: 0.82rem;
+    letter-spacing: 1px;
+    cursor: pointer;
+    padding: 0.6rem 1rem;
+    transition: background-color 0.2s;
+}
+
+.btn-green:hover {
+    background: #388E3C;
+}
+
+.btn-outline-green {
+    background: transparent;
+    border: 1px solid #4CAF50;
+    border-radius: 10px;
+    color: #4CAF50;
+    font-weight: 700;
+    font-size: 0.82rem;
+    letter-spacing: 1px;
+    cursor: pointer;
+    padding: 0.6rem 1rem;
+    transition: all 0.2s;
+}
+
+.btn-outline-green:hover {
+    background: #4CAF50;
+    color: white;
+}
+
+.kommentar {
+    width: 100%;
+    background: #2a2a2a;
+    border: 1px solid #333;
+    border-radius: 10px;
+    color: white;
+    padding: 0.75rem 1rem;
+    font-size: 0.88rem;
+    resize: vertical;
+    min-height: 80px;
+    font-family: inherit;
+    transition: border-color 0.2s;
+}
+
+.kommentar:focus {
+    outline: none;
+    border-color: #4CAF50;
+}
+
+.kommentar::placeholder {
+    color: #555;
+}
+
+.feedback-msg {
+    color: #4CAF50;
+    font-size: 0.85rem;
+    text-align: center;
+    margin: 0 0 0.75rem;
+}
+
+.btn-gem {
+    width: 100%;
+    padding: 1rem;
+    background: #4CAF50;
+    border: none;
+    border-radius: 14px;
+    color: white;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    cursor: pointer;
+    margin-bottom: 1rem;
+    transition: background-color 0.2s, transform 0.15s;
+}
+
+.btn-gem:hover {
+    background: #388E3C;
+    transform: scale(1.01);
+}
+
+.log-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid #2e5e30;
+    font-size: 0.88rem;
+}
+
+.log-item:last-child {
+    border-bottom: none;
+}
+
+.log-navn {
+    color: #eee;
+    font-weight: 500;
+}
+
+.log-oevelser {
+    color: #4CAF50;
+    font-size: 0.75rem;
+    margin-top: 0.2rem;
+}
+
+.log-kommentar {
+    color: #555;
+    font-size: 0.75rem;
+    margin-top: 0.2rem;
+}
+
+.log-dato {
+    color: #555;
+    font-size: 0.75rem;
+    white-space: nowrap;
+    margin-left: 1rem;
+}

@@ -1,4 +1,10 @@
 @page "/minebookinger"
+@using Frontend.Models
+@using Frontend.Services
+@inject UserClientService UserService
+@inject BookingClientService BookingService
+@inject ClassClientService ClassService
+@rendermode InteractiveServer
 
 <PageTitle>Mine Bookinger - FitLife</PageTitle>
 
@@ -7,30 +13,72 @@
 </div>
 
 <div class="booking-list">
-    <div class="booking-item">
-        <div class="booking-item-top">
-            <span>Århus C, Scandinavian</span>
-            <span><strong>Pilates</strong></span>
-            <span>Mette Christensen</span>
-            <span>7/5 10:30</span>
-            <button class="btn-afmeld">AFMELD</button>
+    @if (bookinger == null)
+    {
+        <p style="color:white; padding: 1rem">Indlæser...</p>
+    }
+    else if (!bookinger.Any())
+    {
+        <p style="color:white; padding: 1rem">Du har ingen bookinger endnu.</p>
+    }
+    else
+    {
+        <div class="booking-table">
+            <div class="booking-header-row">
+                <span>Hold</span>
+                <span>Center</span>
+                <span>Lokale</span>
+                <span>Instruktør</span>
+                <span>Starttid</span>
+                <span></span>
+            </div>
+
+            @foreach (var booking in bookinger)
+            {
+                var classInfo = classes.GetValueOrDefault(booking.ClassSessionId);
+                <div class="booking-item">
+                    <span><strong>@(classInfo?.ClassName ?? "Ukendt hold")</strong></span>
+                    <span>@(classInfo?.CenterName ?? "")</span>
+                    <span>@(classInfo?.ClassroomName ?? "")</span>
+                    <span>@(classInfo?.InstructorName ?? "")</span>
+                    <span>@(classInfo?.StartTime?.ToLocalTime().ToString("dd/MM HH:mm") ?? "")</span>
+                    <span>
+                        @if (booking.Status == BookingStatus.Confirmed)
+                        {
+                            <button class="btn-afmeld" @onclick="() => AfmeldBooking(booking.ClassBookingId!)">AFMELD</button>
+                        }
+                    </span>
+                </div>
+            }
         </div>
-        <div class="booking-item-bottom">
-            <span>Holdsal 2</span>
-            <span>Varighed: 55 min</span>
-        </div>
-    </div>
-    <div class="booking-item">
-        <div class="booking-item-top">
-            <span>Århus C, Scandinavian</span>
-            <span><strong>Yin Yoga</strong></span>
-            <span>Mette Christensen</span>
-            <span>7/5 11:30</span>
-            <button class="btn-afmeld">AFMELD</button>
-        </div>
-        <div class="booking-item-bottom">
-            <span>Holdsal 2</span>
-            <span>Varighed: 55 min</span>
-        </div>
-    </div>
+    }
 </div>
+
+@code {
+    private List<BookingModel>? bookinger;
+    private Dictionary<string, ClassOverviewModel> classes = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var user = await UserService.GetCurrentUser();
+        if (user == null) return;
+
+        var allClasses = await ClassService.GetClassOverview();
+        classes = allClasses.ToDictionary(c => c.Id);
+
+        var alle = await BookingService.GetBookingsByUserId(user.Id!);
+        bookinger = alle.Where(b => b.Status != BookingStatus.Cancelled).ToList();
+    }
+
+    private async Task AfmeldBooking(string bookingId)
+    {
+        await BookingService.CancelBooking(bookingId);
+        var user = await UserService.GetCurrentUser();
+        if (user != null)
+            //viser kun aktive hold, aflyste filtreres fra. 
+        {
+            var alle = await BookingService.GetBookingsByUserId(user.Id!);
+            bookinger = alle.Where(b => b.Status != BookingStatus.Cancelled).ToList();
+        }
+    }
+}

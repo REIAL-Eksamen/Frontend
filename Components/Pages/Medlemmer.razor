@@ -1,0 +1,86 @@
+@page "/medlemmer"
+@inject HttpClient Http
+
+<PageTitle>Medlemmer - FitLife</PageTitle>
+
+<div class="medlemmer-container">
+    <div class="medlemmer-header">
+        <div>
+            <h1>Medlemmer</h1>
+            <p class="medlemmer-sub">Oversigt over alle medlemmer</p>
+        </div>
+        <div class="header-stats">
+            <span class="stat-pill">@aktive aktive</span>
+            <span class="stat-pill inaktiv">@inaktive inaktive</span>
+        </div>
+    </div>
+
+    <div class="search-bar">
+        <input type="text" placeholder="Søg efter medlem..." class="search-input" 
+               @bind="searchTerm" @bind:event="oninput" />
+    </div>
+
+    <div class="medlemmer-list">
+        <div class="list-header">
+            <span>Navn</span>
+            <span>Email</span>
+            <span>Medlemskab</span>
+            <span>Status</span>
+        </div>
+
+        @if (users == null)
+        {
+            <p>Henter medlemmer...</p>
+        }
+        else if (!FilteredUsers.Any())
+        {
+            <p>Ingen medlemmer fundet.</p>
+        }
+        else
+        {
+            @foreach (var user in FilteredUsers)
+            {
+                <div class="member-item">
+                    <span class="member-navn">@user.FirstName @user.LastName</span>
+                    <span class="member-email">@user.Email</span>
+                    <span class="membership-type @user.Membership.ToString().ToLower()">@user.Membership</span>
+                    <span class="member-status @(user.MembershipStatus == MembershipStatus.Active ? "aktiv" : "inaktiv")">
+                        @(user.MembershipStatus == MembershipStatus.Active ? "Aktiv" : "Inaktiv")
+                    </span>
+                </div>
+            }
+        }
+    </div>
+</div>
+
+@code {
+    private List<User>? users;
+    private string searchTerm = "";
+
+    private int aktive => users?.Count(u => u.MembershipStatus == MembershipStatus.Active) ?? 0;
+    private int inaktive => users?.Count(u => u.MembershipStatus == MembershipStatus.Inactive) ?? 0;
+
+    private IEnumerable<User> FilteredUsers => users?
+        .Where(u => string.IsNullOrEmpty(searchTerm) ||
+            $"{u.FirstName} {u.LastName}".Contains(searchTerm, StringComparison.OrdinalIgnoreCase) ||
+            u.Email.Contains(searchTerm, StringComparison.OrdinalIgnoreCase))
+        ?? Enumerable.Empty<User>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        users = await Http.GetFromJsonAsync<List<User>>("http://userservice:8080/api/users");
+    }
+
+    public class User
+    {
+        public string? Id { get; set; }
+        public string FirstName { get; set; } = "";
+        public string LastName { get; set; } = "";
+        public string Email { get; set; } = "";
+        public MembershipType Membership { get; set; }
+        public MembershipStatus MembershipStatus { get; set; }
+    }
+
+    public enum MembershipType { Student, Standard, Premium }
+    public enum MembershipStatus { Active, Inactive }
+}

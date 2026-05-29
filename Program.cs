@@ -3,34 +3,51 @@ using Frontend.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 builder.Services.AddRazorComponents()
-    .AddInteractiveServerComponents(); ;
+    .AddInteractiveServerComponents();
 
-builder.Services.AddScoped<AuthClientService>();
+builder.Services.AddHttpClient();
 
-builder.Services.AddScoped(sp =>
-    new HttpClient
+//tokenprovider holder styr på jwt token på tværs af sessions. 
+//authheaderhandler sørger for at token vliver sendt med i alle kald der krvæver login.
+builder.Services.AddSingleton<TokenProvider>();
+builder.Services.AddTransient<AuthHeaderHandler>();
+
+//auth er det eneste endpoint der ikke kræver token, da man jo ikke er logget ind endnu. 
+builder.Services.AddHttpClient<AuthClientService>(c =>
+{
+    c.BaseAddress = new Uri("http://nginx:4000/auth/");
+});
+//resten af kaldene går gennem nginx og kræver gyldigt jwt token. 
+builder.Services.AddHttpClient<ClassClientService>(c =>
     {
-        // Denne addresse skal måske skiftes alt efter hvor der skal hentes data fra
-        // eller så skal vi lave en bedre løsning hihi
-        BaseAddress = new Uri("http://localhost:8080/")
-    });
+        c.BaseAddress = new Uri("http://nginx:4000/classes/");
+    })
+    .AddHttpMessageHandler<AuthHeaderHandler>();
+
+builder.Services.AddHttpClient<BookingClientService>(c =>
+    {
+        c.BaseAddress = new Uri("http://nginx:4000/bookings/");
+    })
+    .AddHttpMessageHandler<AuthHeaderHandler>();
+
+builder.Services.AddHttpClient<UserClientService>(c =>
+    {
+        c.BaseAddress = new Uri("http://nginx:4000/users/");
+    })
+    .AddHttpMessageHandler<AuthHeaderHandler>();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error", createScopeForErrors: true);
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+//sender bruger til /not-found i stedet for en grim fejlside ved 404 og lignende. 
 app.UseStatusCodePagesWithReExecute("/not-found", createScopeForStatusCodePages: true);
 app.UseHttpsRedirection();
-
 app.UseAntiforgery();
-
 app.MapStaticAssets();
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
